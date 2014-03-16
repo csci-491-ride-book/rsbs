@@ -1,0 +1,154 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 13, 2014, 11:55:32 PM
+    Author     : root
+*/
+@import url(http://fonts.googleapis.com/css?family=Muli);
+
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.page-header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    height: 90px;
+    background-color: #cce6f7;
+    z-index: -1;
+    margin: 0px;
+    padding: 0px;
+}
+.page-header a {
+    vertical-align: middle;
+    float: right;
+    margin-top: 13px;
+    padding-right: 5px;
+    height: 64px;
+    width: 64px;
+}
+
+.header-wwu-logo {
+    
+    background-image: url(../images/westernlogo_sm.png);
+    width: 157px;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    vertical-align: middle;
+}
+
+.container {
+    position: absolute;
+    clear: both;
+    height: available;
+    top: 90px;
+    bottom: 0px;
+    width: 100%;
+}
+h1, h2, h3, h4, h5, h6, fieldset legend, .tagline, #toolbar, #footer, #menu, #nav, #wwu-footer
+{
+    font-weight: 300;
+    font-family: 'Muli', sans-serif;
+    color: #003f87;
+}
+h1 {
+    font-size: 1.6em;
+    padding: 10px 0px 10px 0px;
+    margin-top: 0;
+    width: auto;
+}
+h2 {
+    font-size: 1.4em;
+    padding: 15px 0px 3px 0px;
+    border-bottom: 1px solid red;
+    margin-bottom: 1em;
+}
+h3 {
+	font-size: 1.2em;
+	padding: 10px 0px 8px 0px;
+}
+h4 {
+	font-size: 1.1em;
+	padding: 7px 0px 7px 0px;
+}
+h5 {
+	font-size: 1.0em;
+	padding: 6px 0px 6px 0px;
+}
+h6, fieldset legend {
+	font-size: 1.2em;
+	padding: 5px 0px 5px 0px;
+	color: #003f87;
+	z-index: -999;
+}
+
+#map-div {
+    position: relative;
+    width: 75%; 
+    height: 100%; 
+    float: left;
+}
+
+#rides-list {
+    position:relative;
+    width: 25%;
+    min-height: 200px;
+    height: 100%;
+    float:left;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.rides-list-tab {
+    float: left;
+    width:50%;
+}
+
+.rides-list-tab label {
+    background: #eee;
+    padding-bottom: 7px;
+    padding-top: 0;
+    border: 1px solid #ccc;
+    margin-left: -1px;
+    position: relative;
+    left: 1px;
+    width:100%;
+    display: inline-block;
+    text-align: center;
+}
+
+.rides-list-tab [type=radio] {
+    display: none;
+    width: 100%;
+}
+
+.rides-list-content {
+    position: absolute;
+    top: 28px;
+    left:0;
+    background: white;
+    right:0;
+    bottom:0;
+    padding:20px;
+    border:1px solid #ccc;
+    z-index: 0;
+}
+
+[type=radio]:checked ~ label {
+    background: white;
+    border-bottom: 1px solid white;
+    z-index:2;
+}
+[type=radio]:checked ~ label ~ .rides-list-content {
+    z-index: 1;
+}
