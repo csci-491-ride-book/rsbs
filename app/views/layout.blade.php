@@ -1,22 +1,145 @@
 <html>
     <head>
         <title>Ride Sharing and Book Selling</title>
-        <link rel='stylesheet' href='{{asset('assets/css/style.css')}}' />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_pbm0lsQQJ7A7WCCIMgxLho6mI_kBNgznNUWmTWcnfoE.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_X5V3mk4KKEX2sOmS29wJCrzeJmllLILyJaQzV3I9z9A.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_2PpLVnRXp5dQydGOzx5s1fl_j5WJw0HukAogTLR_oZo.css" media=all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_wJMbjyjFEC9dpYDaATCUg6wChMMbGX0cMMLUMT6eMEg.css" media="all" />
+        <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_xAPl0qIk9eowy_iS9tNkCWXLUVoat94SQT48UBCFkyQ.js"></script>
+        <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_rv_BKYv7yieH0IgHddhWHDC-bWGan8yiJbusyOpr0mw.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Muli:400,300" rel="stylesheet" type="text/css" />
+        @yield('resources')
 
     </head>
-    <body>
-        <div class="page-header">
-            <div class="header-wwu-logo">
-            </div>
-            
-            @yield('header-title')
-            <a href='?logout='><img src='{{asset('assets/images/3.png')}}' title='Logout'></a>
-            <a href='{{ action('UsersController@show', $current_user->id) }}'><img src='{{asset('assets/images/25.png')}}' title='User Settings'></a>    
-            <a href="#"><img src='{{asset('assets/images/10.png')}}' title='Messages'></a>
-
+    <body id="genesis-1c">
+        <div id="skip-link">
+            <a href="#main-content">Skip to main content</a>
         </div>
-        <div class="container">
-            @yield('content')
+        <div id="container" class="html not-front not-logged-in one-sidebar sidebar-first page-ride-posting page-book-posting">
+            <div id="leaderboard" class="clearfix">
+                <div class="region region-leaderboard">
+                    <div id="block-views-home_page-block5" class="block block-views block-odd block-leaderboard block-count-1">
+                        <div class="block-inner">
+                            <div class="content">
+                                <div class="view view-home-page view-id-home_page view-display-id-block_5 emergency">
+                                    <div class="view-content">
+                                        <div class="views-row  views-row-1 views-row-odd views-row-first views-row-last list-style-none-emerg">
+                                            <div class="views-field views-field-body">
+                                                <div class="field-content">
+                                                    <a href="http://emergency.wwu.edu"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="header" class="clearfix">
+                <div id="branding">
+                    <div class="logo-site-name">
+                        <strong>
+                            <span id="logo">
+                                <a href="http://www.wwu.edu" title="Home page" rel="home">
+                                    <img src="https://www.wwu.edu/sites/default/files/logo_small_1.png" alt="logo">
+                                </a>
+                            </span>
+                        </strong>
+                    </div>
+                    <div id="site-slogan">Active Minds Changing Lives</div>
+                </div>
+                <!-- /branding -->
+
+                <div id="header-blocks">
+                    <div class="region region-header">
+                        <div id="block-menu-menu-toolbar" class="block block-menu block-odd block-header block-count-2">
+                            <div class="block-inner">
+                                <h2 class="block-title">Toolbar</h2>
+                                <div class="content">
+                                    <ul class="menu">
+                                        <li class="first leaf"><a href="http://www.wwu.edu/academic_calendar" title="">Calendar</a></li>
+                                        <li class="leaf"><a href="http://www.wwu.edu/directory" title="">Directory</a></li>
+                                        <li class="leaf"><a href="http://www.wwu.edu/index" title="">Index</a></li>
+                                        <li class="leaf"><a href="http://www.wwu.edu/campusmaps" title="">Map</a></li>
+                                        <li class="last leaf"><a href="http://mywestern.wwu.edu" title="">myWestern</a></li>
+                                    </ul>    
+                                </div>
+                            </div>
+                        </div>
+                        <div id="block-google_appliance-ga_block_search_form" class="block block-google-appliance block-even block-header block-count-3">
+                            <div class="block-inner">
+                                <div class="content">
+                                    <form action="/student-life/local" method="post" id="google-appliance-block-form" accept-charset="UTF-8">
+                                        <div>
+                                            <div class="container-inline">
+                                                <h2 class="element-invisible">Search Google Appliance</h2>
+                                                <div class="form-item form-type-textfield form-item-search-keys">
+                                                    <label class="element-invisible" for="edit-search-keys">Enter the terms you wish to search for. </label>
+                                                    <input type="text" id="edit-search-keys" name="search_keys" value="" size="15" maxlength="128" class="form-text" />
+                                                </div>
+                                                <div class="form-actions form-wrapper" id="edit-actions">
+                                                    <input type="submit" id="edit-submit" name="op" value="Search" class="form-submit" />
+                                                </div>
+                                                <input type="hidden" name="form_build_id" value="form-5SucQB8oV9cj6MgNgItN9v51Mu4W7BeC10qTDfwV19w" />
+                                                <input type="hidden" name="form_id" value="google_appliance_block_form" />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="block-block-4" class="block block-block block-odd block-header block-count-4">
+                            <div class="block-inner">
+                                <div class="content">
+                                    <p> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /header -->
+            <div id="columns" class="clear clearfix">
+                <div id="content-column">
+                    @yield('content')
+                </div>
+            </div>
+            <div id="footer">
+                <div class="region region-footer">
+                    <div id="block-views-footer_name-block" class="block block-views block-odd block-footer block-count-8">
+                        <div class="block-inner">
+                            <div class="content">
+                                <div class="view view-footer-name view-id-footer_name view-display-id-block view-dom-id-140e91fcf56a6abf0ad05243a7049158">
+                                    <div class="view-content">
+                                        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+                                            <div class="views-field views-field-body">
+                                                <div class="field-content">
+                                                    <p>Western Washington University     ·    Bellingham, Washington</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="block-menu-menu-footer-menu" class="block block-menu block-even block-footer block-count-9">
+                        <div class="block-inner">
+                            <h2 class="block-title">Footer menu</h2>
+                            <div class="content">
+                                <ul class="menu"><li class="first leaf"><a href="http://www.wwu.edu/hr/employment/employmenthome.shtml" title="Find out about Staff and Faculty job offerings">Jobs</a></li>
+                                    <li class="leaf"><a href="http://www.wwu.edu/bs/purchasing/vendorinfo.shtml" title="">Vendors</a></li>
+                                    <li class="leaf"><a href="https://commerce.cashnet.com/wwupay?LT=P" title="">Pay Bills</a></li>
+                                    <li class="leaf"><a href="/wwucontact" title="">Contact Us</a></li>
+                                    <li class="last leaf"><a href="/privacy" title="">Privacy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

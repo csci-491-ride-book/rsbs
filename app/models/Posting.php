@@ -18,9 +18,5 @@ class Posting extends \Eloquent {
     	return $this->belongsTo('User', 'user_id');
     }
 
-    public function rideRequests()
-    {
-        return $this->hasMany('RideRequest', 'posting_id');
-    }
 
 }

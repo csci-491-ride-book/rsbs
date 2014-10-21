@@ -10,13 +10,13 @@ class BaseController extends Controller {
 			//at the moment add the following line and comment out the two after that
 			phpCAS::setNoCasServerValidation();
 			//phpCAS::setCasServerCACert("CA_FILE.pem");
-			//phpCAS::forceAuthentication();
+			phpCAS::forceAuthentication();
 			if (isset($_REQUEST['logout'])) {                
                             phpCAS::logout();
 			}
                         
-                        $current_user = User::firstOrCreate(array('user_name' => 'hamptom'));
-                        if (!isset($current_user->email)) {
+                        $current_user = User::firstOrNew(array('user_name' => phpCAS::getUser()));
+                        if (is_null($current_user->email)) {
                             $current_user->email = $current_user->user_name . '@students.wwu.edu';
                             $current_user->save();
                         }

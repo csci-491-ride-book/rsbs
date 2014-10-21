@@ -15,9 +15,11 @@ Route::get('RideRequests/{posting_id}', array('uses' => 'RideRequestsController@
 Route::get('/RidePostings', 'RidePostingsController@index');
 Route::get('/User/show/{id}', 'UsersController@show');
 
+Route::post('/RidePostings', 'RidePostingsController@search');
+
 Route::resource('RideRequests', 'RideRequestsController');
 Route::resource('Users', 'UsersController');
-Route::resource('RidePostings', 'RidePostingsController');
+/*Route::resource('RidePostings', 'RidePostingsController');*/
 Route::resource('BookPostings', 'BookPostingsController');
 Route::resource('Messages', 'MessagesController');
 

@@ -3,13 +3,14 @@
 class RideRequest extends \Eloquent {
     protected $fillable = [];
 
-    public function posting()
+    public function ridePosting()
     {
-        return $this->belongsTo('Posting', 'posting_id');
+        return $this->belongsTo('RidePosting', 'ride_posting_id');
     }
 
     public function user()
     {
     	return $this->belongsTo('User', 'user_id');
     }
+
 }

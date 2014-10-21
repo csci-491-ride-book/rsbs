@@ -17,4 +17,19 @@ class User extends \Eloquent {
     {
         return $this->hasMany('RideRequest', 'user_id');
     }
+
+    public function ownedMessageThreads()
+    {
+        return $this->hasMany('MessageThread', 'user_id');
+    }
+
+    public function messageThreads()
+    {
+        return $this->belongsToMany('MessageThread', 'conversations', 'user_id', 'message_thread_id');
+    }
+
+    public function rides()
+    {
+        return $this->belongsToMany('RidePosting', 'rides', 'user_id', 'ride_posting_id');
+    }
 }

@@ -36,7 +36,7 @@
             <td>{{ $value->ride->to }}</td>
             <td>{{ $value->ride->from }}</td>
             <td>{{ $value->ride->date }}</td>
-            <td><a href="{{ URL::to('RideRequests') }}">{{ $value->rideRequests->count() }} Pending</a></td>
+            <td><a href="{{ URL::to('RideRequests') }}">{{ $requests->count() }} Pending</a></td>
         </tr>
         @endforeach
     </tbody>

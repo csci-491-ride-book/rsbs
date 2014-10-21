@@ -9,104 +9,65 @@ and open the template in the editor.
 */
 @import url(http://fonts.googleapis.com/css?family=Muli);
 
-body {
-    width: 100%;
-    height: 100%;
-    padding: 0px;
-    margin: 0px;
-}
-
-.page-header {
-    top: 0;
-    left: 0;
-    width: 100%;
-    
-    height: 90px;
-    background-color: #cce6f7;
-    z-index: -1;
-    margin: 0px;
-    padding: 0px;
-}
-.page-header a {
-    vertical-align: middle;
-    float: right;
-    margin-top: 13px;
-    padding-right: 5px;
-    height: 64px;
-    width: 64px;
-}
-
-.header-wwu-logo {
-    
-    background-image: url(../images/westernlogo_sm.png);
-    width: 157px;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    float: left;
-    vertical-align: middle;
-}
-
-.container {
-    position: absolute;
-    clear: both;
-    height: available;
-    top: 90px;
-    bottom: 0px;
-    width: 100%;
-}
-h1, h2, h3, h4, h5, h6, fieldset legend, .tagline, #toolbar, #footer, #menu, #nav, #wwu-footer
-{
-    font-weight: 300;
-    font-family: 'Muli', sans-serif;
-    color: #003f87;
-}
-h1 {
-    font-size: 1.6em;
-    padding: 10px 0px 10px 0px;
-    margin-top: 0;
-    width: auto;
-}
-h2 {
-    font-size: 1.4em;
-    padding: 15px 0px 3px 0px;
-    border-bottom: 1px solid red;
-    margin-bottom: 1em;
-}
-h3 {
-	font-size: 1.2em;
-	padding: 10px 0px 8px 0px;
-}
-h4 {
-	font-size: 1.1em;
-	padding: 7px 0px 7px 0px;
-}
-h5 {
-	font-size: 1.0em;
-	padding: 6px 0px 6px 0px;
-}
-h6, fieldset legend {
-	font-size: 1.2em;
-	padding: 5px 0px 5px 0px;
-	color: #003f87;
-	z-index: -999;
-}
-
 #map-div {
-    position: relative;
-    width: 75%; 
-    height: 100%; 
+    width: 61.8%; 
+    display: block;
+    height: 100%;
+    min-height: 500px;
     float: left;
 }
 
 #rides-list {
     position:relative;
-    width: 25%;
-    min-height: 200px;
-    height: 100%;
-    float:left;
+    width: 38.2%;
+    display: block;
+    height: 38.2%;
+    float:right;
     overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#content-column {
+    height: 581px;
+    padding-bottom: 50px;
+    min-height: 581px;
+}
+
+#footer {
+    bottom: 0;
+    position: relative;
+    height: 34px;
+}
+
+#rides-search-div {
+    height: 38.2%;
+}
+
+#rides-result-div {
+    height: 61.8%;
+    float: right;
+    display: block;
+    width: 38.2%;
     overflow-y: auto;
+}
+
+#ride-list-item {
+    border-top: 1px solid #777;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    background: white;
+}
+
+#ride-list-item-to-from{
+    float: left;
+    width: 75%;
+}
+
+#ride-list-item-date {
+    float: right;
+    text-align: right;
+    padding-right: 5px;
 }
 
 .rides-list-tab {
@@ -139,11 +100,32 @@ h6, fieldset legend {
     background: white;
     right:0;
     bottom:0;
-    padding:20px;
     border:1px solid #ccc;
     z-index: 0;
 }
 
+.form-group {
+    display: block;
+    clear: both;
+    width: 100%;
+}
+
+.form-group label {
+    display: inline;
+    width: auto;
+    float:left;
+    background: none;
+    border: none;
+}
+
+.form-control {
+    display: inline;
+    float:right;
+}
+
+.btn btn-primary {
+    float: right;
+}
 [type=radio]:checked ~ label {
     background: white;
     border-bottom: 1px solid white;

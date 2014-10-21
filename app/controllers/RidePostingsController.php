@@ -55,7 +55,7 @@ class RidePostingsController extends \BaseController {
 			$ride->save();
 			$posting = new Posting;
 			$posting->ride_posting_id = $ride->id;
-			$posting->user_id = Input::get('user_id');
+			$posting->user_id = Input::get('user_id'); //TODO make a hidden form field for the user id
 			$posting->save();
 
 			// redirect
@@ -106,6 +106,46 @@ class RidePostingsController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+	
+	//used to filter out rides and reload page with correct rides
+	
+	public function search()
+	{
+		//validate input
+		$rules = array(
+			'to'       => 'required',
+			'from'       => 'required'
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::to('RidePostings')
+				->withErrors($validator)
+				->withInput();
+		}
+		
+		//get info from form
+		$rideFilter = new RidePosting;
+		$rideFilter->to = Input::get('to');
+		$rideFilter->from = Input::get('from');
+		
+		$rides = RidePosting::where(function($query)
+		{
+			$query->where('to', 'LIKE', '%'.Input::get('to').'%');
+			$query->where('from', 'LIKE', '%'.Input::get('from').'%');
+		})->get();
+		/*var_dump('search results');
+		
+		foreach($rides as $ride)
+		{
+			return var_dump($ride->to);
+		}*/
+		
+		return View::make('RidePosting/index')->with('rides', $rides);
+		
+		//return Redirect::to('RidePostings');
 	}
 
 }

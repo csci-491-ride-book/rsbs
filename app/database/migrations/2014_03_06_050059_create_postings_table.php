@@ -16,6 +16,7 @@ class CreatePostingsTable extends Migration {
             $table->increments('id');
 			$table->integer('book_posting_id')->nullable();
 			$table->integer('ride_posting_id')->nullable();
+			$table->integer('user_id');
 			$table->timestamps();
         });
 	}

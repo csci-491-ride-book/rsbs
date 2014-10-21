@@ -67,7 +67,7 @@ class UsersController extends \BaseController {
 		$user = User::find($id);
 		$rides = Posting::where('user_id', '=', $id)->whereNotNull('ride_posting_id')->get();
 		$books = Posting::where('user_id', '=', $id)->whereNotNull('book_posting_id')->get();
-		$requests = $user->rideRequests;
+		$requests = $user->rideRequests();
 
     	return View::make('User/show')->with('user', $user)->with('rides',$rides)->with('books',$books)
     	->with('requests',$requests);

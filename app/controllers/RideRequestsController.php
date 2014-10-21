@@ -1,6 +1,6 @@
 <?php
 
-class RidePostingsController extends \BaseController {
+class RideRequestsController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.

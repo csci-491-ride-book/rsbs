@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRidePostingsTable extends Migration {
+class CreateRideRequestsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,11 @@ class CreateRidePostingsTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('ride_postings', function(Blueprint $table) {
+        Schema::create('ride_requests', function(Blueprint $table) {
             $table->increments('id');
-			$table->string('to');
-			$table->string('from');
-			$table->dateTime('date');
-			$table->integer('seats');
-			$table->string('price');
+			$table->boolean('status');
+			$table->integer('ride_posting_id');
+			$table->integer ('user_id');
 			$table->timestamps();
         });
 	}
@@ -31,7 +29,7 @@ class CreateRidePostingsTable extends Migration {
 	 */
 	public function down()
 	{
-	    Schema::drop('ride_postings');
+	    Schema::drop('ride_requests');
 	}
 
 }

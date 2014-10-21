@@ -22,7 +22,6 @@ class CreateBookPostingsTable extends Migration {
 			$table->string('class');
 			$table->string('major');
 			$table->string('price');
-			$table->integer('user_id');
 			$table->timestamps();
         });
 	}
