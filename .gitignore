@@ -2,6 +2,8 @@
 
 /vendor
 
+/nbproject
+
 composer.phar
 
 composer.lock
