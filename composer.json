@@ -6,7 +6,7 @@
 	"require": {
 		"laravel/framework": "4.1.*",
                 "mustache/mustache": "dev-dev",
-		"way/generators": "dev-master",
+		"way/generators": "~2.0",
 		"doctrine/dbal": "dev-master",
 		"jasig/phpcas": "dev-master"
 	},

@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'maxhampt_csciproject',
-			'username'  => 'maxhampt_testpro',
-			'password'  => 'rLaNVJMnqT',
+			'database'  => 'DATABASE_NAME',
+			'username'  => 'MYSQL_USER_NAME',
+			'password'  => 'MYSQL_USER_PASSWORD',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
