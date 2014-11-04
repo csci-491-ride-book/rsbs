@@ -131,10 +131,27 @@ class RidePostingsController extends \BaseController {
 		$rideFilter->to = Input::get('to');
 		$rideFilter->from = Input::get('from');
 		
+		//check if they are performing an advanced search
+		if (Input::get('Advanced Search') === 'Yes'){
+			$rideFilter->date = Input::get('date');
+			$rideFilter->price = Input::get('price');
+			$rideFilter->seats = Input::get('seats');
+		}
+		
 		$rides = RidePosting::where(function($query)
 		{
 			$query->where('to', 'LIKE', '%'.Input::get('to').'%');
 			$query->where('from', 'LIKE', '%'.Input::get('from').'%');
+			//concat to the where clause if the values exist
+			if (Input::has('price')){
+				$query->where('price', 'LIKE', '%'.Input::get('price').'%');
+			}
+			if (Input::has('date')){
+				$query->where('date', 'LIKE', '%'.Input::get('date').'%');
+			}
+			if (Input::has('seats')){
+				$query->where('seats', 'LIKE', '%'.Input::get('seats').'%');
+			}
 		})->get();
 		/*var_dump('search results');
 		

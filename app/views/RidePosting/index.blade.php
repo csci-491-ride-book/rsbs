@@ -6,6 +6,18 @@
 <script src=http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 <script type="text/javascript">
 
+function showAdvanced() {
+    if (document.getElementById('advanced').value == 'Yes') {
+        document.getElementById('AdvancedField1').style.display = 'block';
+		document.getElementById('AdvancedField2').style.display = 'block';
+		document.getElementById('AdvancedField3').style.display = 'block';
+    } else {
+        document.getElementById('AdvancedField1').style.display = 'none';
+		document.getElementById('AdvancedField2').style.display = 'none';
+		document.getElementById('AdvancedField3').style.display = 'none';
+    }
+}
+
 function initialize() {
     var mapProp = {
         center: new google.maps.LatLng(48.5, -122.4750),
@@ -16,6 +28,7 @@ function initialize() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
 </script>
 @stop
 
@@ -52,9 +65,23 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
                 <div class="form-group">
                     {{ form::label('advanced', 'Advanced')}}
-                    {{ form::checkbox('Advanced Search', 'Yes') }}
+                    {{ form::checkbox('Advanced Search', 'Yes', false, array('id' => 'advanced', 'onclick' => 'showAdvanced()'))}}
                 </div>
 
+				<div class="form-group" id="AdvancedField1" style="display: none">
+					<label for="date">Date and Time of Departure</label>
+					<input class="form-control" type="datetime-local" name="date"/> 
+				</div>
+				
+				<div class="form-group" id="AdvancedField2" style="display: none">
+					{{ Form::label('seats', 'Seats Available') }}
+					{{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
+				</div>
+
+				<div class="form-group" id="AdvancedField3" style="display: none">
+					{{ Form::label('price', 'Seat Price') }}
+					{{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
+				</div>
 
                 {{ Form::submit('Submit Search', array('class' => 'btn btn-primary')) }}
 
