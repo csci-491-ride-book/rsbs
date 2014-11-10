@@ -24,7 +24,34 @@ function initialize() {
         zoom: 8,
         mapTypeId: 'roadmap'
     };
-    var map = new google.maps.Map(document.getElementById("map-div"), mapProp);
+    map = new google.maps.Map(document.getElementById("map-div"), mapProp);
+    directionsDisplay = new google.maps.DirectionsRenderer();
+
+}
+
+function showRoute(routeDiv, to, from){
+
+    var request = {
+        origin: from,
+        destination: to,
+        travelMode: google.maps.TravelMode.DRIVING
+    };
+
+    directionsDisplay.setMap(map);
+    directionService = new google.maps.DirectionsService();
+    directionService.route(request, function(response, status){
+        if(status == google.maps.DirectionsStatus.OK){
+            //caching the response with a closure.
+            routeDiv.onmouseover = function(){
+                directionsDisplay.setDirections(response);
+            }
+            directionsDisplay.setDirections(response);
+        }
+    });
+}
+
+function hideRoute(){
+    directionsDisplay.set('directions', null);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -136,7 +163,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <div id="rides-result-div">
     <h2>Available Rides</h2>
     @foreach($rides as $key => $value)
-    <div id="ride-list-item">
+    <div id="ride-list-item" 
+        onmouseover="showRoute(this,'{{ $value->to }}', '{{ $value->from }}');" 
+        onmouseout="hideRoute();">
         <div id ="ride-list-item-date">
             <h5><?php
                 $date = new DateTime($value->date);
