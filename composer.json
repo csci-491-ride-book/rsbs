@@ -8,7 +8,8 @@
                 "mustache/mustache": "dev-dev",
 		"way/generators": "~2.0",
 		"doctrine/dbal": "dev-master",
-		"jasig/phpcas": "dev-master"
+		"jasig/phpcas": "1.3.3",
+		"xavrsl/cas": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

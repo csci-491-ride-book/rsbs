@@ -26,7 +26,6 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map-div"), mapProp);
     directionsDisplay = new google.maps.DirectionsRenderer();
-
 }
 
 function showRoute(routeDiv, to, from){
@@ -59,103 +58,78 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 @stop
 
-
-
 @section('content')
 
-<!-- will be used to show any messages -->
 <h1 id="page-title">Find a Ride</h1>
 <div id="map-div"></div>
 <div id="rides-list">
     @if (Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }}</div>
+        <div class="alert alert-info">{{ Session::get('message') }}</div>
     @endif
-    <div class='rides-list-tab'>
-        <input type='radio' id='tab-1' name='tab-group-1' checked>
-        <label for='tab-1'><strong>Search Rides</strong></label>
-
-        <div class='rides-list-content'>
+    <div class="rides-list-tab">
+        <input type="radio" id="tab-1" name="tab-group-1" checked>
+        <label for="tab-1"><strong>Search Rides</strong></label>
+        <div class="rides-list-content">
+            {{ HTML::ul($errors->all()) }}
             <div id="rides-search-div">
-                {{ HTML::ul($errors->all()) }}
-
-                {{ Form::open(array('action' => 'RidePostingsController@index')) }}
-
+                {{ Form::open(array('method'=>'get')) }}
                 <div class="form-group">
                     {{ Form::label('to', 'To') }}
                     {{ Form::text('to', Input::old('to'), array('class' => 'form-control')) }}
                 </div>
-
                 <div class="form-group">
                     {{ Form::label('from', 'From') }}
                     {{ Form::text('from', Input::old('from'), array('class' => 'form-control')) }}
                 </div>
-
                 <div class="form-group">
-                    {{ form::label('advanced', 'Advanced')}}
-                    {{ form::checkbox('Advanced Search', 'Yes', false, array('id' => 'advanced', 'onclick' => 'showAdvanced()'))}}
+                    {{ Form::label('advanced', 'Advanced') }}
+                    {{ Form::checkbox('advanced', 1, false, array('id' => 'advanced', 'onclick' => 'showAdvanced()')) }}
                 </div>
-
-				<div class="form-group" id="AdvancedField1" style="display: none">
-					<label for="date">Date and Time of Departure</label>
-					<input class="form-control" type="datetime-local" name="date"/> 
-				</div>
-				
-				<div class="form-group" id="AdvancedField2" style="display: none">
-					{{ Form::label('seats', 'Seats Available') }}
-					{{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
-				</div>
-
-				<div class="form-group" id="AdvancedField3" style="display: none">
-					{{ Form::label('price', 'Seat Price') }}
-					{{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
-				</div>
-
+                <div class="form-group" id="AdvancedField1" style="display: none">
+                	<label for="date">Date/Time</label>
+                	<input class="form-control" type="datetime-local" name="date"/>
+                </div>
+                <div class="form-group" id="AdvancedField2" style="display: none">
+                	{{ Form::label('seats', 'Seats Available') }}
+                	{{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
+                </div>
+                <div class="form-group" id="AdvancedField3" style="display: none">
+                	{{ Form::label('price', 'Seat Price') }}
+                	{{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
+                </div>
                 {{ Form::submit('Submit Search', array('class' => 'btn btn-primary')) }}
-
                 {{ Form::close() }}
             </div>
-
         </div>
     </div>
-
     <div class='rides-list-tab'>
         <input type='radio' id='tab-2' name='tab-group-1'>
         <label for='tab-2'><strong>Offer a Ride</strong></label>
-
         <div class='rides-list-content'>
             {{ HTML::ul($errors->all()) }}
-
-            {{ Form::open(array('route' => 'rides.store')) }}
-
-            {{ Form::hidden('user_id', Input::old($current_user->id), array('class' => 'form-control')) }}
-
+            {{ Form::open(array( 'action' => 'RideController@store')) }}
+            {{ Form::hidden('user_id', $currentUser->id, array('class' => 'form-control')) }}
             <div class="form-group">
                 {{ Form::label('to', 'To') }}
                 {{ Form::text('to', Input::old('to'), array('class' => 'form-control')) }}
             </div>
-
             <div class="form-group">
                 {{ Form::label('from', 'From') }}
                 {{ Form::text('from', Input::old('from'), array('class' => 'form-control')) }}
             </div>
-
             <div class="form-group">
-                <label for="date">Date and Time of Departure</label>
-                <input class="form-control" type="datetime-local" name="date"/> 
+                <label for="date">Date/Time</label>
+                <input class="form-control" type="datetime-local" name="date"/>
             </div>
-
             <div class="form-group">
                 {{ Form::label('seats', 'Seats Available') }}
                 {{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
             </div>
-
             <div class="form-group">
-                {{ Form::label('price', 'How much will you charge?') }}
+                {{ Form::label('price', 'Seat Price') }}
                 {{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
             </div>
-
             {{ Form::submit('Create the Ride!', array('class' => 'btn btn-primary')) }}
-
             {{ Form::close() }}
         </div>
     </div>
@@ -163,16 +137,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <div id="rides-result-div">
     <h2>Available Rides</h2>
     @foreach($rides as $key => $value)
-    <a style="display:block" href="{{ route('rides.show', $value->id) }}">
         <div id="ride-list-item"
             onmouseover="showRoute(this,'{{ $value->to }}', '{{ $value->from }}');"
             onmouseout="hideRoute();">
+            <a href="{{ route('rides.show', $value->id) }}"></a>
             <div id ="ride-list-item-date">
                 <h5><?php
                     $date = new DateTime($value->date);
                     echo $date->format('m/d')
-                    ?>
-                </h5>
+                    ?></h5>
             </div>
             <div id="ride-list-item-to-from">
                 <h4>To: {{ $value->to }}</h4>
@@ -185,7 +158,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
                     <a class="btn btn-small btn-info" href="{{ URL::to('Rides/' . $value->id . '/edit') }}">Edit this Ride</a>
             </td> -->
         </div>
-    </a>
     @endforeach
 </div>
 @stop

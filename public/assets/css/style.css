@@ -59,6 +59,19 @@ and open the template in the editor.
     background: white;
 }
 
+#ride-list-item a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-decoration: none;
+    z-index: 10;
+    background-color: #FFF;
+    opacity: 0;
+    filter: alpha(opacity=1);
+}
+
 #ride-list-item-to-from{
     float: left;
     width: 75%;

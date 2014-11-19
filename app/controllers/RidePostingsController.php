@@ -9,7 +9,27 @@ class RidePostingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$rides = RidePosting::all();
+        if (Input::has('to') && Input::has('from')) {
+            $rides = RidePosting::where(function($query)
+            {
+                $query->where('to', 'LIKE', '%'.Input::get('to').'%');
+                $query->where('from', 'LIKE', '%'.Input::get('from').'%');
+                //concat to the where clause if the values exist
+                if (Input::has('price')){
+                    $query->where('price', 'LIKE', '%'.Input::get('price').'%');
+                }
+                if (Input::has('date')){
+                    $query->where('date', 'LIKE', '%'.Input::get('date').'%');
+                }
+                if (Input::has('seats')){
+                    $query->where('seats', 'LIKE', '%'.Input::get('seats').'%');
+                }
+            })->get();
+        } else {
+            $rides = RidePosting::all();
+        }
+
+
 
     	return View::make('RidePosting/index')->with('rides', $rides);
 	}
@@ -34,13 +54,14 @@ class RidePostingsController extends \BaseController {
 		// validate
 		// read more on validation at http://laravel.com/docs/validation
 		$rules = array(
-			'to'       => 'required',
-			'from'       => 'required'
+			'to'   => 'required',
+			'from' => 'required'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
 		if ($validator->fails()) {
+            Session::flash('message', 'Failed ride creation!');
 			return Redirect::to('RidePostings/create')
 				->withErrors($validator)
 				->withInput();
@@ -109,7 +130,8 @@ class RidePostingsController extends \BaseController {
 	}
 	
 	//used to filter out rides and reload page with correct rides
-	
+
+	/*
 	public function search()
 	{
 		//validate input
@@ -158,11 +180,11 @@ class RidePostingsController extends \BaseController {
 		foreach($rides as $ride)
 		{
 			return var_dump($ride->to);
-		}*/
+		}
 		
 		return View::make('RidePosting/index')->with('rides', $rides);
 		
 		//return Redirect::to('RidePostings');
-	}
+	}  */
 
 }

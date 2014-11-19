@@ -11,19 +11,27 @@
 |
 */
 
-Route::get('RideRequests/{posting_id}', array('uses' => 'RideRequestsController@store'));
-Route::get('/RidePostings', 'RidePostingsController@index');
 Route::get('/User/show/{id}', 'UsersController@show');
 
-Route::post('/RidePostings', 'RidePostingsController@search');
-
-Route::resource('RideRequests', 'RideRequestsController');
 Route::resource('Users', 'UsersController');
-/*Route::resource('RidePostings', 'RidePostingsController');*/
 Route::resource('BookPostings', 'BookPostingsController');
 Route::resource('Messages', 'MessagesController');
 
+Route::group(array('before' => 'cas'), function()
+{
+    Route::resource('rides', 'RideController');
+});
 
+Route::filter('cas', function()
+{
+    Cas::authenticate();
+    $currentUser = User::firstOrNew(array('user_name' => Cas::getCurrentUser()));
+    if (is_null($currentUser->email)) {
+        $currentUser->email = $currentUser->user_name . '@students.wwu.edu';
+        $currentUser->save();
+    }
+    View::share('currentUser', $currentUser);
+});
 
 Route::get('/', function()
 {
