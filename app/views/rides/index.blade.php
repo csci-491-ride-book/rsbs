@@ -3,7 +3,7 @@
 @section('resources')
 <link rel="stylesheet" href="{{asset('assets/css/style.css')}}" />
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script src=http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+<script src=http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false&libraries=places"></script>
 <script type="text/javascript">
 
 function showAdvanced() {
@@ -26,6 +26,11 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map-div"), mapProp);
     directionsDisplay = new google.maps.DirectionsRenderer();
+	
+	var input = document.getElementById('searchTextField');
+	var options = {componentRestrictions: {country: 'us'}};
+    
+	var places = new google.maps.places.Autocomplete(input, options);
 }
 
 function showRoute(routeDiv, to, from){
@@ -75,7 +80,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 {{ Form::open(array('method'=>'get')) }}
                 <div class="form-group">
                     {{ Form::label('to', 'To') }}
-                    {{ Form::text('to', Input::old('to'), array('class' => 'form-control')) }}
+                    {{ Form::text('to', Input::old('to'), array('id' => 'searchTextField', 'class' => 'form-control')) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label('from', 'From') }}
