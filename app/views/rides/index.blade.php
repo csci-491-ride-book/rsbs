@@ -30,7 +30,6 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map-div"), mapProp);
     directionsDisplay = new google.maps.DirectionsRenderer();
-<<<<<<< HEAD
     geocoder = new google.maps.Geocoder();
 
     google.maps.event.addListener(map, 'click', function(e) {
@@ -39,9 +38,6 @@ function initialize() {
 	
 	var input = document.getElementById('searchTextField');
 	var options = {componentRestrictions: {country: 'us'}};
-    
-	//var places = new google.maps.places.Autocomplete(input, options);
-=======
 
 	toSearchAutocomplete = new google.maps.places.Autocomplete(
 	    (document.getElementById('toSearchAutocomplete')),
@@ -64,7 +60,7 @@ function initialize() {
     google.maps.event.addListener(fromSearchAutocomplete, 'place_changed', function(){});
     google.maps.event.addListener(toOfferAutocomplete, 'place_changed', function(){});
     google.maps.event.addListener(fromOfferAutocomplete, 'place_changed', function(){});
->>>>>>> 383bc1b2b72a594ecc1b1e74f121e4339f30e335
+
 }
 
 function showRoute(routeDiv, to, from){
@@ -120,8 +116,8 @@ function fillSearch(lat, lng) {
                     }
                 }
 
-                var to = document.getElementById('searchTextField');
-                var from = document.getElementById('from');
+                var to = document.getElementById('toSearchAutocomplete');
+                var from = document.getElementById('fromSearchAutocomplete');
                 if(from.getAttribute("value") === null){
                     from.setAttribute("value", city.long_name);
                     
