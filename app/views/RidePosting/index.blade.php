@@ -26,6 +26,12 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map-div"), mapProp);
     directionsDisplay = new google.maps.DirectionsRenderer();
+    geocoder = new google.maps.Geocoder();
+
+    google.maps.event.addListener(map, 'click', function(e) {
+        placeMarker(e.latLng, map);
+        fillSearch(e.latlng.lat(), e.latLng.lng())
+    });
 
 }
 
@@ -52,6 +58,55 @@ function showRoute(routeDiv, to, from){
 
 function hideRoute(){
     directionsDisplay.set('directions', null);
+}
+
+function placeMarker(position, map) {
+    
+    var marker = new google.maps.Marker({
+        map: map,
+        position: position,
+    });
+
+}
+
+function fillSearch(lat, lng) {
+
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+                //find country name
+                for (var i=0; i<results[0].address_components.length; i++) {
+                    for (var b=0;b<results[0].address_components[i].types.length;b++) {
+
+                        //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+                        if (results[0].address_components[i].types[b] == "locality") {
+                            //this is the object you are looking for
+                            city = results[0].address_components[i];
+                            break;
+                        }
+                    }
+                }
+
+                var to = document.getElementById('toSearch');
+                var from = document.getElementById('fromSearch');
+                if(from.getAttribute("value") === null){
+                    from.setAttribute("value", city.long_name);
+                    
+                }
+                else{
+                    to.setAttribute("value", city.long_name);
+                    document.getElementById('searchForm').submit();
+                }
+                
+
+            } else {
+              alert("No results found");
+            }
+        } else {
+            alert("Geocoder failed due to: " + status);
+        }
+    });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
