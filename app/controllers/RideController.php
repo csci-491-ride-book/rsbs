@@ -9,7 +9,7 @@
 class RideController extends BaseController {
 
     protected function getRides() {
-        if (Input::has('to') || Input::has('from')){
+        if (Input::has('searchTo') || Input::has('searchFrom')){
             $rides = RidePosting::where(function($query)
             {
                 // Try to add to
