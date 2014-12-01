@@ -13,12 +13,12 @@ class RideController extends BaseController {
             $rides = RidePosting::where(function($query)
             {
                 // Try to add to
-                if (Input::has('to')) {
-                    $query->where('to', 'LIKE', '%' . Input::get('to') . '%');
+                if (Input::has('searchTo')) {
+                    $query->where('to', 'LIKE', '%' . Input::get('searchTo') . '%');
                 }
                 // Try to add from
-                if (Input::has('from')) {
-                    $query->where('from', 'LIKE', '%' . Input::get('from') . '%');
+                if (Input::has('searchFrom')) {
+                    $query->where('from', 'LIKE', '%' . Input::get('searchFrom') . '%');
                 }
 
                 // If advanced is checked

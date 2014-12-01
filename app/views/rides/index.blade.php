@@ -3,7 +3,7 @@
 @section('resources')
 <link rel="stylesheet" href="{{asset('assets/css/style.css')}}" />
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script src=http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false&libraries=places"></script>
+<script src=http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 <script type="text/javascript">
 
 function showAdvanced() {
@@ -17,6 +17,10 @@ function showAdvanced() {
 		document.getElementById('AdvancedField3').style.display = 'none';
     }
 }
+var toSearchAutocomplete;
+var fromSearchAutocomplete;
+var toOfferAutocomplete;
+var fromOfferAutocomplete;
 
 function initialize() {
     var mapProp = {
@@ -26,11 +30,28 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map-div"), mapProp);
     directionsDisplay = new google.maps.DirectionsRenderer();
-	
-	var input = document.getElementById('searchTextField');
-	var options = {componentRestrictions: {country: 'us'}};
-    
-	var places = new google.maps.places.Autocomplete(input, options);
+
+	toSearchAutocomplete = new google.maps.places.Autocomplete(
+	    (document.getElementById('toSearchAutocomplete')),
+	    {types: ['(cities)']}
+	);
+	fromSearchAutocomplete = new google.maps.places.Autocomplete(
+	    (document.getElementById('fromSearchAutocomplete')),
+        {types: ['(cities)']}
+    );
+    toOfferAutocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('toOfferAutocomplete')),
+        {types: ['(cities)']}
+    );
+    fromOfferAutocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('fromOfferAutocomplete')),
+        {types: ['(cities)']}
+    );
+
+    google.maps.event.addListener(toSearchAutocomplete, 'place_changed', function(){});
+    google.maps.event.addListener(fromSearchAutocomplete, 'place_changed', function(){});
+    google.maps.event.addListener(toOfferAutocomplete, 'place_changed', function(){});
+    google.maps.event.addListener(fromOfferAutocomplete, 'place_changed', function(){});
 }
 
 function showRoute(routeDiv, to, from){
@@ -80,11 +101,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 {{ Form::open(array('method'=>'get')) }}
                 <div class="form-group">
                     {{ Form::label('to', 'To') }}
-                    {{ Form::text('to', Input::old('to'), array('id' => 'searchTextField', 'class' => 'form-control')) }}
+                    {{ Form::text('searchTo', Input::old('searchTo'), array('id' => 'toSearchAutocomplete', 'class' => 'form-control')) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label('from', 'From') }}
-                    {{ Form::text('from', Input::old('from'), array('class' => 'form-control')) }}
+                    {{ Form::text('searchFrom', Input::old('searchFrom'), array('id' => 'fromSearchAutocomplete' , 'class' => 'form-control')) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label('advanced', 'Advanced') }}
@@ -116,11 +137,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
             {{ Form::hidden('user_id', $currentUser->id, array('class' => 'form-control')) }}
             <div class="form-group">
                 {{ Form::label('to', 'To') }}
-                {{ Form::text('to', Input::old('to'), array('class' => 'form-control')) }}
+                {{ Form::text('to', Input::old('to'), array('id' => 'toOfferAutocomplete', 'class' => 'form-control')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('from', 'From') }}
-                {{ Form::text('from', Input::old('from'), array('class' => 'form-control')) }}
+                {{ Form::text('from', Input::old('from'), array('id' => 'fromOfferAutocomplete', 'class' => 'form-control')) }}
             </div>
             <div class="form-group">
                 <label for="date">Date/Time</label>
@@ -141,6 +162,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </div>
 <div id="rides-result-div">
     <h2>Available Rides</h2>
+    <div id="rides-results">
     @foreach($rides as $key => $value)
         <div id="ride-list-item"
             onmouseover="showRoute(this,'{{ $value->to }}', '{{ $value->from }}');"
@@ -164,5 +186,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
             </td> -->
         </div>
     @endforeach
+    </div>
 </div>
 @stop
