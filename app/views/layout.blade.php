@@ -1,12 +1,16 @@
 <html>
     <head>
         <title>Ride Sharing and Book Selling</title>
-        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_pbm0lsQQJ7A7WCCIMgxLho6mI_kBNgznNUWmTWcnfoE.css" media="all" />
-        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_X5V3mk4KKEX2sOmS29wJCrzeJmllLILyJaQzV3I9z9A.css" media="all" />
-        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_2PpLVnRXp5dQydGOzx5s1fl_j5WJw0HukAogTLR_oZo.css" media=all" />
-        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_wJMbjyjFEC9dpYDaATCUg6wChMMbGX0cMMLUMT6eMEg.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_xE-rWrJf-fncB6ztZfd2huxqgxu4WO-qwma6Xer30m4.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_vZ_wrMQ9Og-YPPxa1q4us3N7DsZMJa-14jShHgRoRNo.css" media="screen" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_QnDqumlAmBiA-LkPKOOEj-wMlRQlYuHQdMmPGFs03GQ.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_VbEAtbpDknOjJvP7q_pj7ys4f52ol6jmkQ7nJ_OPtco.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_9tqitzI_YFQV7eFoyh7s658ho24ip0jvicv-PmJ7oHU.css" media="all" />
+        <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_Ptdg8C6UR3BYxiYKtNZ8x4KcAO6h3mqgstD0V__xWWA.css" media="all" />
         <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_xAPl0qIk9eowy_iS9tNkCWXLUVoat94SQT48UBCFkyQ.js"></script>
-        <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_rv_BKYv7yieH0IgHddhWHDC-bWGan8yiJbusyOpr0mw.js"></script>
+        <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_jy9PnL7ukqNuQbBK1pOuFZ7lSI-KlIs4y8rH_cMtjH0.js"></script>
+        <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_2rIRPLLvTd13YXKhfe9U9sLDJ4ZRCn1pFwI_AeQ6Nxo.js"></script>
+        
         <link href="https://fonts.googleapis.com/css?family=Muli:400,300" rel="stylesheet" type="text/css" />
         @yield('resources')
 
