@@ -149,12 +149,9 @@
 @if (Session::has('message'))
     <div class="alert alert-info" id="messages">
         <div class="row">
-            <div class="col-lg-11">
+            <div class="col-lg-12">
                 {{ Session::get('message') }}
                 {{ HTML::ul($errors->all()) }}
-            </div>
-            <div class="col-lg-1">
-                <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#messages">Close</button>
             </div>
         </div>
     </div>
@@ -311,7 +308,6 @@ Height is set on page load in footer script.
 @section('footer-resources')
 <script type="text/javascript">
 
-
     function setRidesListHeight(){
         var ridesList = document.getElementById('available-rides');
 
@@ -323,6 +319,12 @@ Height is set on page load in footer script.
         var listHeight = height - tabsHeight - divideHeight - headerHeight;
         ridesList.style.height = listHeight + 'px';
     }
+
+    $(document).ready (function(){
+        $(".alert").delay(5000).slideUp(500, function() {
+            $(this).alert('close');
+        });
+    });
 
     $(document).on('shown.bs.tab', 'a[data-toggle="pill"]', function(){
         setRidesListHeight();
