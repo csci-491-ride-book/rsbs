@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>Ride Sharing and Book Selling</title>
         <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_xE-rWrJf-fncB6ztZfd2huxqgxu4WO-qwma6Xer30m4.css" media="all" />
@@ -9,11 +10,18 @@
         <link type="text/css" rel="stylesheet" href="https://www.wwu.edu/sites/default/files/css/css_Ptdg8C6UR3BYxiYKtNZ8x4KcAO6h3mqgstD0V__xWWA.css" media="all" />
         <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_xAPl0qIk9eowy_iS9tNkCWXLUVoat94SQT48UBCFkyQ.js"></script>
         <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_jy9PnL7ukqNuQbBK1pOuFZ7lSI-KlIs4y8rH_cMtjH0.js"></script>
-        <script type="text/javascript" src="https://www.wwu.edu/sites/default/files/js/js_2rIRPLLvTd13YXKhfe9U9sLDJ4ZRCn1pFwI_AeQ6Nxo.js"></script>
-        
+
+        <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Muli:400,300" rel="stylesheet" type="text/css" />
         @yield('resources')
-
     </head>
     <body id="genesis-1c">
         <div id="skip-link">
@@ -106,11 +114,12 @@
             </div>
             <!-- /header -->
             <div id="columns" class="clear clearfix">
-                <div id="content-column">
+                <div id="content-column" class="container">
                     @yield('content')
                 </div>
             </div>
             <div id="footer">
+                @yield('footer-resources')
                 <div class="region region-footer">
                     <div id="block-views-footer_name-block" class="block block-views block-odd block-footer block-count-8">
                         <div class="block-inner">

@@ -86,8 +86,8 @@ return array(
 		*/
 
 		'cas_validation' => '',
-		'cas_cert' => '/path/to/cert/file',
+		'cas_cert' => '',
 		'cas_login_url' => '',
-		'cas_logout_url' => 'https://cas.domain.fr/logout?service=%s',
+		'cas_logout_url' => '',
 	)
 );

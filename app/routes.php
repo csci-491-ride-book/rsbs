@@ -24,13 +24,17 @@ Route::group(array('before' => 'cas'), function()
 
 Route::filter('cas', function()
 {
-    Cas::authenticate();
-    $currentUser = User::firstOrNew(array('user_name' => Cas::getCurrentUser()));
-    if (is_null($currentUser->email)) {
-        $currentUser->email = $currentUser->user_name . '@students.wwu.edu';
-        $currentUser->save();
+    if (isset($_REQUEST['logout'])) {
+        Cas::logout();
+    } else {
+        Cas::authenticate();
+        $currentUser = User::firstOrNew(array('user_name' => Cas::getCurrentUser()));
+        if (is_null($currentUser->email)) {
+            $currentUser->email = $currentUser->user_name . '@students.wwu.edu';
+            $currentUser->save();
+        }
+        View::share('currentUser', $currentUser);
     }
-    View::share('currentUser', $currentUser);
 });
 
 Route::get('/', function()
