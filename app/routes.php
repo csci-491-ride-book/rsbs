@@ -11,15 +11,10 @@
 |
 */
 
-Route::get('/User/show/{id}', 'UsersController@show');
-
-Route::resource('Users', 'UsersController');
-Route::resource('BookPostings', 'BookPostingsController');
-Route::resource('Messages', 'MessagesController');
-
 Route::group(array('before' => 'cas'), function()
 {
     Route::resource('rides', 'RideController');
+    Route::resource('users', 'UserController');
 });
 
 Route::filter('cas', function()

@@ -140,11 +140,19 @@
 </script>
 @stop
 
-@section('header-content')
-    <h2>Find a Ride</h2>
-@stop
-
 @section('content')
+<!-- Page Header/User -->
+<div class="row" id="page-header">
+    <div class="col-lg-6 text-left">
+        <h1>Find a Ride</h1>
+    </div>
+    <div class="col-lg-5 text-right">
+        Logged in as <a href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a>
+    </div>
+    <div class="col-lg-1 text-left">
+        <a href="?logout">Sign Out</a>
+    </div>
+</div>
 <!-- Display Errors/Messages -->
 @if (Session::has('message'))
     <div class="alert alert-info" id="messages">
@@ -280,23 +288,24 @@ Height is set on page load in footer script.
                 <h2>Available Rides</h2>
             </div>
             <div class="col-lg-12" id="available-rides" style="overflow-y: scroll">
-            @foreach($rides as $key => $value)
-            <div id="ride-list-item"
-            onmouseover="showRoute(this,'{{ $value->to }}', '{{ $value->from }}');"
-            onmouseout="hideRoute();">
-            <a href="{{ route('rides.show', $value->id) }}"></a>
-            <div id ="ride-list-item-date">
-            <h5><?php
-            $date = new DateTime($value->date);
-            echo $date->format('m/d')
-            ?></h5>
-            </div>
-            <div id="ride-list-item-to-from">
-            <h4>To: {{ $value->to }}</h4>
-            <h4>From: {{ $value->from }}</h4>
-            </div>
-            </div>
-            @endforeach
+                @foreach($rides as $key => $value)
+                <div class="row" id="ride-list-item"
+                    onmouseover="showRoute(this,'{{ $value->to }}', '{{ $value->from }}');"
+                    onmouseout="hideRoute();">
+                    <a href="{{ route('rides.show', $value->id) }}"></a>
+                    <div class="col-lg-9 text-left" id="ride-list-item-to-from">
+                        <h4>To: {{ $value->to }}</h4>
+                        <h4>From: {{ $value->from }}</h4>
+                    </div>
+                    <div class="col-lg-3 text-right" id="ride-list-item-date">
+                        <h5><?php
+                            $date = new DateTime($value->date);
+                            echo $date->format('m/d/y')
+                        ?></h5>
+                    </div>
+                </div>
+                <hr>
+                @endforeach
             </div>
         </div>
 <!-- /Available Rides -->
@@ -335,7 +344,7 @@ Height is set on page load in footer script.
         var rightDiv = document.getElementById('right-div');
 
         var height = window.innerHeight;
-        var headerHeight = $('#header').outerHeight(true) + $('#leaderboard').outerHeight(true);
+        var headerHeight = $('#header').outerHeight(true) + $('#leaderboard').outerHeight(true) + $('#page-header').outerHeight(true);
         var footerHeight = $('#footer').outerHeight(true);
 
         var newHeight = height - headerHeight - footerHeight - 45;

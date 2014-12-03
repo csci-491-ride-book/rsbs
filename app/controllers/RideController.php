@@ -87,7 +87,8 @@ class RideController extends BaseController {
     }
 
     public function show($id) {
-
+        $ride = RidePosting::find($id);
+        return View::make('rides.show')->with('ride', $ride);
     }
 
     public function edit($id) {
