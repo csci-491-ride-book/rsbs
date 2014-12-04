@@ -1,7 +1,7 @@
 <?php
 
 class RideComment extends Eloquent {
-    protected $fillable = [];
+    protected $fillable = array('ride_id', 'user_id', 'message_body');
 
     public function poster() {
         return $this->belongsTo('User');

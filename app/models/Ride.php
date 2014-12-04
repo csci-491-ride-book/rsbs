@@ -15,6 +15,10 @@ class Ride extends Eloquent {
         return $this->hasMany('RideRequest');
     }
 
+    public function comments() {
+        return $this->hasMany('RideComment');
+    }
+
     public function requestedBy($userId) {
         foreach($this->requests as $request) {
             if ($request->user_id === $userId) {

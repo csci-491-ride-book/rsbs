@@ -14,6 +14,7 @@
 Route::group(array('before' => 'cas'), function()
 {
     Route::post('rides/addRequest', 'RideController@addRequest');
+    Route::post('rides/addComment', 'RideController@addComment');
     Route::resource('rides', 'RideController');
     Route::resource('users', 'UserController');
 });

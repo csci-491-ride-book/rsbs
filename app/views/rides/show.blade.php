@@ -106,27 +106,31 @@
             <h3 class="panel-title">Comments</h3>
         </div>
         <ul class="list-group">
+            @foreach($comments as $comment)
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-lg-3 text-left">
-                        Commenter Display Name<br>
-                        Date
+                        {{ User::find($comment->user_id)->display_name }}<br />
+                        <?php
+                            $commentDate = new DateTime($comment->created_at);
+                            echo $commentDate->format('m/d/y g:i A'); ?>
                     </div>
-                    <p class="col-lg-9">Comment Message</p>
+                    <p class="col-lg-9">{{ $comment->message_body }}</p>
                 </div>
             </li>
+            @endforeach
             <li class="list-group-item">
                 <div class="row">
-                    {{ Form::open(array()) }}
+                    {{ Form::open(array('action' => 'RideController@addComment')) }}
                     {{ Form::hidden('rideId', $ride->id) }}
                     {{ Form::hidden('userId', $currentUser->id) }}
                     <div class="col-lg-12">
                         <div class="input-group">
-                            {{ Form::text('message', null, array('class' => 'form-control', 'placeholder' => 'Add a comment...')) }}
+                            {{ Form::text('messageBody', Input::old('messageBody'), array('class' => 'form-control', 'maxlength' => '255', 'placeholder' => 'Add a comment...')) }}
                             <span class="input-group-btn">
                                 {{ Form::submit('Submit', array('class' => "btn btn-default", 'type' => 'button')) }}
                             </span>
-                    </div>
+                        </div>
                     </div>
                 </div>
             </li>

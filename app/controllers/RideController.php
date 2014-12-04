@@ -90,11 +90,13 @@ class RideController extends BaseController {
         $ride = Ride::find($id);
         $driver = User::find($ride->user_id);
         $passengers = $ride->passengers;
+        $comments = $ride->comments;
 
         return View::make('rides.show', array(
             'ride' => $ride,
             'driver' => $driver,
-            'passengers' => $passengers));
+            'passengers' => $passengers,
+            'comments' => $comments));
     }
 
     public function edit($id) {
@@ -115,6 +117,18 @@ class RideController extends BaseController {
 
         $ride->requests()->save($rideRequest);
         $ride->save();
+
+        return Redirect::route('rides.show', $ride->id);
+    }
+
+    public function addComment() {
+        $ride = Ride::find(Input::get('rideId'));
+        $rideComment = RideComment::create(array(
+            'ride_id' => Input::get('rideId'),
+            'user_id' => Input::get('userId'),
+            'message_body' => Input::get('messageBody')));
+
+        $ride->comments()->save($rideComment);
 
         return Redirect::route('rides.show', $ride->id);
     }

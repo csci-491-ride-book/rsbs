@@ -15,6 +15,11 @@ class CreateRideCommentsTable extends Migration {
 		Schema::create('ride_comments', function(Blueprint $table)
 		{
 			$table->increments('id');
+
+            $table->integer('user_id');
+            $table->integer('ride_id');
+            $table->string('message_body');
+
 			$table->timestamps();
 		});
 	}

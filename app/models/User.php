@@ -34,4 +34,8 @@ class User extends Eloquent {
     {
         return $this->hasMany('RideRequest');
     }
+
+    public function comments() {
+        return $this->hasMany('RideComment');
+    }
 }
