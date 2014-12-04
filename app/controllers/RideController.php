@@ -10,15 +10,15 @@ class RideController extends BaseController {
 
     protected function getRides() {
         if (Input::has('searchTo') || Input::has('searchFrom')){
-            $rides = RidePosting::where(function($query)
+            $rides = Ride::where(function($query)
             {
                 // Try to add to
                 if (Input::has('searchTo')) {
-                    $query->where('to', 'LIKE', '%' . Input::get('searchTo') . '%');
+                    $query->where('destination', 'LIKE', '%' . Input::get('searchTo') . '%');
                 }
                 // Try to add from
                 if (Input::has('searchFrom')) {
-                    $query->where('from', 'LIKE', '%' . Input::get('searchFrom') . '%');
+                    $query->where('origin', 'LIKE', '%' . Input::get('searchFrom') . '%');
                 }
 
                 // If advanced is checked
@@ -38,7 +38,7 @@ class RideController extends BaseController {
                 }
             })->orderBy('date', 'asc')->get();
         } else {
-            $rides = RidePosting::orderBy('date', 'asc')->get();
+            $rides = Ride::orderBy('date', 'asc')->get();
         }
         return $rides;
     }
@@ -55,8 +55,11 @@ class RideController extends BaseController {
         // validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'to'   => 'required',
-            'from' => 'required'
+            'destination' => 'required',
+            'origin'      => 'required',
+            'date'        => 'required|date',
+            'price'       => 'required|numeric',
+            'seats'       => 'required|integer'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -68,17 +71,14 @@ class RideController extends BaseController {
                 ->withInput();
         } else {
             // store
-            $ride = new RidePosting;
-            $ride->to = Input::get('to');
-            $ride->from = Input::get('from');
+            $ride = new Ride;
+            $ride->user_id = Input::get('user_id');
+            $ride->destination = Input::get('destination');
+            $ride->origin = Input::get('origin');
             $ride->date = Input::get('date');
-            $ride->price = Input::get('price');
+            $ride->seat_price = Input::get('price');
             $ride->seats = Input::get('seats');
             $ride->save();
-            $posting = new Posting;
-            $posting->ride_posting_id = $ride->id;
-            $posting->user_id = Input::get('user_id');
-            $posting->save();
 
             // redirect
             Session::flash('message', 'Successfully created ride!');
@@ -87,8 +87,14 @@ class RideController extends BaseController {
     }
 
     public function show($id) {
-        $ride = RidePosting::find($id);
-        return View::make('rides.show')->with('ride', $ride);
+        $ride = Ride::find($id);
+        $driver = User::find($ride->user_id);
+        $passengers = $ride->passengers;
+
+        return View::make('rides.show', array(
+            'ride' => $ride,
+            'driver' => $driver,
+            'passengers' => $passengers));
     }
 
     public function edit($id) {
@@ -101,5 +107,18 @@ class RideController extends BaseController {
 
     public function destroy($id) {
 
+    }
+
+    public function addRequest() {
+        $ride = Ride::find(Input::get('rideId'));
+        $rideRequest = new RideRequest();
+
+        $rideRequest->ride_id = Input::get('rideId');
+        $rideRequest->user_id = Input::get('userId');
+
+        $ride->requests()->save($rideRequest);
+        $ride->save();
+
+        return Redirect::route('rides.show', $ride->id);
     }
 } 

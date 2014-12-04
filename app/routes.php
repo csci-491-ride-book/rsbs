@@ -13,6 +13,7 @@
 
 Route::group(array('before' => 'cas'), function()
 {
+    Route::post('rides/addRequest', 'RideController@addRequest');
     Route::resource('rides', 'RideController');
     Route::resource('users', 'UserController');
 });
@@ -26,6 +27,10 @@ Route::filter('cas', function()
         $currentUser = User::firstOrNew(array('user_name' => Cas::getCurrentUser()));
         if (is_null($currentUser->email)) {
             $currentUser->email = $currentUser->user_name . '@students.wwu.edu';
+            $currentUser->save();
+        }
+        if (is_null($currentUser->display_name)) {
+            $currentUser->display_name = $currentUser->user_name;
             $currentUser->save();
         }
         View::share('currentUser', $currentUser);

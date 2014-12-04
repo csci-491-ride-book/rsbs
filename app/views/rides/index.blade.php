@@ -61,10 +61,30 @@
             {types: ['(cities)']}
         );
 
-        google.maps.event.addListener(toSearchAutocomplete, 'place_changed', function(){});
-        google.maps.event.addListener(fromSearchAutocomplete, 'place_changed', function(){});
-        google.maps.event.addListener(toOfferAutocomplete, 'place_changed', function(){});
-        google.maps.event.addListener(fromOfferAutocomplete, 'place_changed', function(){});
+        google.maps.event.addListener(toSearchAutocomplete, 'place_changed', function(){
+            var box = document.getElementById('toSearchAutocomplete');
+            var placeComponents = box.value.split(",");
+            var output = placeComponents[0] + ", " + placeComponents[1];
+            box.value = output;
+        });
+        google.maps.event.addListener(fromSearchAutocomplete, 'place_changed', function(){
+            var box = document.getElementById('fromSearchAutocomplete');
+            var placeComponents = box.value.split(",");
+            var output = placeComponents[0] + ", " + placeComponents[1];
+            box.value = output;
+        });
+        google.maps.event.addListener(toOfferAutocomplete, 'place_changed', function(){
+            var box = document.getElementById('toOfferAutocomplete');
+            var placeComponents = box.value.split(",");
+            var output = placeComponents[0] + ", " + placeComponents[1];
+            box.value = output;
+        });
+        google.maps.event.addListener(fromOfferAutocomplete, 'place_changed', function(){
+            var box = document.getElementById('fromOfferAutocomplete');
+            var placeComponents = box.value.split(",");
+            var output = placeComponents[0] + ", " + placeComponents[1];
+            box.value = output;
+        });
     }
 
     function showRoute(routeDiv, to, from){
@@ -114,7 +134,9 @@
                             if (results[0].address_components[i].types[b] == "locality") {
                                 //this is the object you are looking for
                                 city = results[0].address_components[i];
-                                break;
+                            }
+                            if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+                                state = results[0].address_components[i];
                             }
                         }
                     }
@@ -122,11 +144,11 @@
                     var to = document.getElementById('toSearchAutocomplete');
                     var from = document.getElementById('fromSearchAutocomplete');
                     if(from.getAttribute("value") === null){
-                        from.setAttribute("value", city.long_name);
+                        from.setAttribute("value", city.long_name + ", " + state.short_name);
 
                     }
                     else{
-                        to.setAttribute("value", city.long_name);
+                        to.setAttribute("value", city.long_name + ", " + state.short_name);
                     }
 
                 } else {
@@ -155,14 +177,19 @@
 </div>
 <!-- Display Errors/Messages -->
 @if (Session::has('message'))
-    <div class="alert alert-info" id="messages">
-        <div class="row">
-            <div class="col-lg-12">
-                {{ Session::get('message') }}
-                {{ HTML::ul($errors->all()) }}
-            </div>
+    @if ($errors->count() > 0)
+        <div class="alert alert-danger alert-dismissible" id="messages">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            {{ Session::get('message') }}
+            {{ HTML::ul($errors->all()) }}
         </div>
-    </div>
+    @else
+        <div class="alert alert-success alert-dismissible" id="messages">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            {{ Session::get('message') }}
+        </div>
+    @endif
+
 @endif
 <!-- Main Content -->
 <div class="row">
@@ -240,15 +267,15 @@ Height is set on page load in footer script.
                         {{ Form::open(array( 'action' => 'RideController@store', 'class' => 'form-horizontal', 'role' => 'form')) }}
                         {{ Form::hidden('user_id', $currentUser->id, array('class' => 'form-control')) }}
                         <div class="form-group" style="margin-top: 10px;">
-                            {{ Form::label('to', 'To', array('class' => 'col-lg-2 control-label')) }}
+                            {{ Form::label('destination', 'To', array('class' => 'col-lg-2 control-label')) }}
                             <div class="col-lg-10">
-                                {{ Form::text('to', Input::old('to'), array('id' => 'toOfferAutocomplete', 'class' => 'form-control')) }}
+                                {{ Form::text('destination', Input::old('destination'), array('id' => 'toOfferAutocomplete', 'class' => 'form-control')) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ Form::label('from', 'From', array('class' => 'col-lg-2 control-label')) }}
+                            {{ Form::label('origin', 'From', array('class' => 'col-lg-2 control-label')) }}
                             <div class="col-lg-10">
-                                {{ Form::text('from', Input::old('from'), array('id' => 'fromOfferAutocomplete', 'class' => 'form-control')) }}
+                                {{ Form::text('origin', Input::old('origin'), array('id' => 'fromOfferAutocomplete', 'class' => 'form-control')) }}
                             </div>
                         </div>
                         <div class="form-group">
@@ -288,23 +315,25 @@ Height is set on page load in footer script.
                 <h2>Available Rides</h2>
             </div>
             <div class="col-lg-12" id="available-rides" style="overflow-y: scroll">
-                @foreach($rides as $key => $value)
+                @foreach($rides as $ride)
+                @if($ride->availableSeats()>0)
                 <div class="row" id="ride-list-item"
-                    onmouseover="showRoute(this,'{{ $value->to }}', '{{ $value->from }}');"
+                    onmouseover="showRoute(this,'{{ $ride->destination }}', '{{ $ride->origin }}');"
                     onmouseout="hideRoute();">
-                    <a href="{{ route('rides.show', $value->id) }}"></a>
+                    <a href="{{ route('rides.show', $ride->id) }}"></a>
                     <div class="col-lg-9 text-left" id="ride-list-item-to-from">
-                        <h4>To: {{ $value->to }}</h4>
-                        <h4>From: {{ $value->from }}</h4>
+                        <h4>To: {{ $ride->destination }}</h4>
+                        <h4>From: {{ $ride->origin }}</h4>
                     </div>
                     <div class="col-lg-3 text-right" id="ride-list-item-date">
                         <h5><?php
-                            $date = new DateTime($value->date);
+                            $date = new DateTime($ride->date);
                             echo $date->format('m/d/y')
                         ?></h5>
                     </div>
                 </div>
                 <hr>
+                @endif
                 @endforeach
             </div>
         </div>
@@ -328,12 +357,6 @@ Height is set on page load in footer script.
         var listHeight = height - tabsHeight - divideHeight - headerHeight;
         ridesList.style.height = listHeight + 'px';
     }
-
-    $(document).ready (function(){
-        $(".alert").delay(5000).slideUp(500, function() {
-            $(this).alert('close');
-        });
-    });
 
     $(document).on('shown.bs.tab', 'a[data-toggle="pill"]', function(){
         setRidesListHeight();

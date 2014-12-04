@@ -17,7 +17,12 @@ class UserController extends BaseController
     public function show($id)
     {
         $user = User::find($id);
-        return View::make('users.show')->with('user', $user);
+        $ridesAsDriver = $user->ridesAsDriver;
+        $ridesAsPassenger = $user->ridesAsPassenger;
+        return View::make('users.show', array(
+            'user' => $user,
+            'ridesAsDriver' => $ridesAsDriver,
+            'ridesAsPassenger' => $ridesAsPassenger));
     }
 
     public function edit($id)

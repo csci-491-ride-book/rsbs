@@ -1,35 +1,37 @@
 <?php
 
-class User extends \Eloquent {
-    protected $fillable = array('user_name', );
+class User extends Eloquent {
+    protected $fillable = array('user_name');
 
-    public function messages()
-    {
-        return $this->hasMany('Message', 'to_id');
+    /**
+     * One to many relationship defining rides where this user was the driver.
+     *
+     * Local key:   id
+     * Foreign key: user_id
+     */
+    protected function ridesAsDriver() {
+        return $this->hasMany('Ride');
     }
 
-    public function postings()
-    {
-        return $this->hasMany('Posting', 'user_id');
+    /**
+     * Many to many relationship defining rides where this user was a passenger.
+     *
+     * Pivot Table:      user_passenger_rides
+     * Pivot Table keys: user - user_id
+     *                   ride - ride_id
+     */
+    protected function ridesAsPassenger() {
+        return $this->belongsToMany('Ride');
     }
 
+    /**
+     * One to many relationship defining rides where this user requested a ride.
+     *
+     * Local key:   id
+     * Foreign key: user_id
+     */
     public function rideRequests()
     {
-        return $this->hasMany('RideRequest', 'user_id');
-    }
-
-    public function ownedMessageThreads()
-    {
-        return $this->hasMany('MessageThread', 'user_id');
-    }
-
-    public function messageThreads()
-    {
-        return $this->belongsToMany('MessageThread', 'conversations', 'user_id', 'message_thread_id');
-    }
-
-    public function rides()
-    {
-        return $this->belongsToMany('RidePosting', 'rides', 'user_id', 'ride_posting_id');
+        return $this->hasMany('RideRequest');
     }
 }

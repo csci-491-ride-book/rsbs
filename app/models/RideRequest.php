@@ -1,16 +1,16 @@
 <?php
 
-class RideRequest extends \Eloquent {
-    protected $fillable = [];
+class RideRequest extends Eloquent {
+    protected $fillable = array('user_id', 'ride_id');
 
-    public function ridePosting()
+    public function ride()
     {
-        return $this->belongsTo('RidePosting', 'ride_posting_id');
+        return $this->belongsTo('Ride');
     }
 
     public function user()
     {
-    	return $this->belongsTo('User', 'user_id');
+    	return $this->belongsTo('User');
     }
 
 }
