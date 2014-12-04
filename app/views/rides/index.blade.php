@@ -64,25 +64,25 @@
         google.maps.event.addListener(toSearchAutocomplete, 'place_changed', function(){
             var box = document.getElementById('toSearchAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + ", " + placeComponents[1];
+            var output = placeComponents[0] + "," + placeComponents[1];
             box.value = output;
         });
         google.maps.event.addListener(fromSearchAutocomplete, 'place_changed', function(){
             var box = document.getElementById('fromSearchAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + ", " + placeComponents[1];
+            var output = placeComponents[0] + "," + placeComponents[1];
             box.value = output;
         });
         google.maps.event.addListener(toOfferAutocomplete, 'place_changed', function(){
             var box = document.getElementById('toOfferAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + ", " + placeComponents[1];
+            var output = placeComponents[0] + "," + placeComponents[1];
             box.value = output;
         });
         google.maps.event.addListener(fromOfferAutocomplete, 'place_changed', function(){
             var box = document.getElementById('fromOfferAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + ", " + placeComponents[1];
+            var output = placeComponents[0] + "," + placeComponents[1];
             box.value = output;
         });
     }
@@ -150,7 +150,6 @@
                     else{
                         to.setAttribute("value", city.long_name + ", " + state.short_name);
                     }
-
                 } else {
                   alert("No results found");
                 }
