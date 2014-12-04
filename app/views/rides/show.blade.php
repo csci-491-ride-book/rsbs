@@ -17,58 +17,46 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-5 panel panel-default">
+    <div class="col-lg-5 well">
         <div class="row">
-            <div class="col-lg-4 text-left">
-                <label for="destination">Destination:</label>
-            </div>
+            <label class="control-label col-lg-4">Destination:</label>
             <div class="col-lg-4 text-right">
-                <p id="destination">{{ $ride->destination }}</p>
+                {{ $ride->destination }}
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 text-left">
-                <label for="origin">Origin:</label>
-            </div>
+            <label class="control-label col-lg-4">Origin:</label>
             <div class="col-lg-4 text-right">
-                <p id="origin">{{ $ride->origin }}</p>
+                {{ $ride->origin }}
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 text-left">
-                <label for="date">Departure Date:</label>
-            </div>
+            <label class="control-label col-lg-4">Departure Date:</label>
             <div class="col-lg-4 text-right">
-                <p id="date"><?php
+                <?php
                      $date = new DateTime($ride->date);
                      echo $date->format('m/d/y')
-                ?></p>
+                ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 text-left">
-                <label for="time">Departure Time:</label>
-            </div>
+            <label class="control-label col-lg-4">Departure Time:</label>
             <div class="col-lg-4 text-right">
-                <p id="time"><?php
+                <?php
                      echo $date->format('g:i A')
-                ?></p>
+                ?>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 text-left">
-                <label for="driver">Driver:</label>
-            </div>
+            <label class="control-label col-lg-4">Driver:</label>
             <div class="col-lg-4 text-right">
-                <p id="driver">{{ $driver->display_name }}</p>
+                {{ $driver->display_name }}
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 text-left">
-                <label for="seats">Open Seats:</label>
-            </div>
+            <label class="control-label col-lg-4">Open Seats:</label>
             <div class="col-lg-4 text-right">
-                <p id="seats">{{ $ride->availableSeats() }}</p>
+                {{ $ride->availableSeats() }}
             </div>
             @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id) && (!$ride->requestedBy($currentUser->id)))
                 {{ Form::open(array('action' => 'RideController@addRequest')) }}
@@ -84,6 +72,65 @@
                 </div>
             @endif
         </div>
+        <div class="row">
+            <label class="control-label col-lg-4">Confirmed Riders:</label>
+            @if ($passengers->count()>0)
+                <div class="col-lg-4 text-right">
+                    {{ $passengers[0]->display_name }}
+                </div>
+            @else
+                <div class="col-lg-4 text-right">
+                    <i>Available</i>
+                </div>
+            @endif
+            @for ($i = 1; $i < $passengers->count(); $i++)
+                <div class="row">
+                    <div class="col-lg-offset-4 col-lg-4 text-right">
+                        {{ $passengers[i]->display_name }}
+                    </div>
+                </div>
+            @endfor
+            @for ($j = 1; $j < $ride->availableSeats(); $j++)
+                <div class="row">
+                    <div class="col-lg-offset-4 col-lg-4 text-right">
+                        <i>Available</i>
+                    </div>
+                </div>
+            @endfor
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Comments</h3>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-lg-3 text-left">
+                        Commenter Display Name<br>
+                        Date
+                    </div>
+                    <p class="col-lg-9">Comment Message</p>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    {{ Form::open(array()) }}
+                    {{ Form::hidden('rideId', $ride->id) }}
+                    {{ Form::hidden('userId', $currentUser->id) }}
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            {{ Form::text('message', null, array('class' => 'form-control', 'placeholder' => 'Add a comment...')) }}
+                            <span class="input-group-btn">
+                                {{ Form::submit('Submit', array('class' => "btn btn-default", 'type' => 'button')) }}
+                            </span>
+                    </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
 </div>
 @stop

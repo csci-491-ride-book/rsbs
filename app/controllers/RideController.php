@@ -111,10 +111,7 @@ class RideController extends BaseController {
 
     public function addRequest() {
         $ride = Ride::find(Input::get('rideId'));
-        $rideRequest = new RideRequest();
-
-        $rideRequest->ride_id = Input::get('rideId');
-        $rideRequest->user_id = Input::get('userId');
+        $rideRequest = RideRequest::create(array('ride_id' => Input::get('rideId'), 'user_id' => Input::get('userId')));
 
         $ride->requests()->save($rideRequest);
         $ride->save();
