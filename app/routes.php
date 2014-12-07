@@ -40,5 +40,5 @@ Route::filter('cas', function()
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return Redirect::to('rides');
 });

@@ -11,6 +11,7 @@
     var map;
     var marker;
     var directionsDisplay;
+    var searchAutocomplete;
     var toSearchAutocomplete;
     var fromSearchAutocomplete;
     var toOfferAutocomplete;
@@ -43,7 +44,11 @@
         google.maps.event.addListener(map, 'click', function(e) {
             fillSearch(e.latLng.lat(), e.latLng.lng())
         });
-
+        
+        searchAutocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('searchAutocomplete')),
+            {types: ['(cities)']}
+        );
         toSearchAutocomplete = new google.maps.places.Autocomplete(
             (document.getElementById('toSearchAutocomplete')),
             {types: ['(cities)']}
@@ -61,6 +66,12 @@
             {types: ['(cities)']}
         );
 
+        google.maps.event.addListener(searchAutocomplete, 'place_changed', function(){
+            var box = document.getElementById('searchAutocomplete');
+            var placeComponents = box.value.split(",");
+            var output = placeComponents[0] + "," + placeComponents[1];
+            box.value = output;
+        });
         google.maps.event.addListener(toSearchAutocomplete, 'place_changed', function(){
             var box = document.getElementById('toSearchAutocomplete');
             var placeComponents = box.value.split(",");
@@ -107,16 +118,16 @@
             }
         });
     }
-
+    
     function hideRoute(){
-        directionsDisplay.set('directions', null);
+        //directionsDisplay.set('directions', null);
     }
 
     function placeMarker(position, map) {
 
         marker = new google.maps.Marker({
             map: map,
-            position: position
+            position: position,
         });
     }
 
@@ -174,6 +185,7 @@
         <a href="?logout">Sign Out</a>
     </div>
 </div>
+
 <!-- Display Errors/Messages -->
 @if (Session::has('message'))
     @if ($errors->count() > 0)
@@ -188,8 +200,8 @@
             {{ Session::get('message') }}
         </div>
     @endif
-
 @endif
+
 <!-- Main Content -->
 <div class="row">
 <!--
@@ -201,118 +213,141 @@ Height is set on page load in footer script.
 
 <!-- RightSide - 1/3 of page on right -->
     <div class="col-lg-4" id="right-div">
-<!-- Search/Offer Tabs -->
-        <div class="row" id="ride-tabs">
-            <div class="col-lg-12">
-                <!-- Pills -->
-                <ul class="nav nav-pills nav-justified">
-                    <li role="presentation" class="active"><a href="#search" aria-controls="search" role="tab" data-toggle="pill">Find a Ride</a></li>
-                    <li role="presentation"><a href="#offer" aria-controls="offer" role="tab" data-toggle="pill">Offer a Ride</a></li>
-                </ul>
-                <!-- /Pills -->
-                <!-- Tab Content -->
-                <div class="tab-content">
-                    <!-- Search Tab -->
-                    <div role="tabpanel" class="tab-pane active" id="search">
-                        {{ Form::open(array('method'=>'get', 'id' => 'searchForm', 'class' => 'form-horizontal', 'role' => 'form')) }}
-                        <div class="form-group" style="margin-top: 10px;">
-                            {{ Form::label('to', 'To', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('searchTo', Input::old('searchTo'), array('id' => 'toSearchAutocomplete', 'class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ Form::label('from', 'From', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('searchFrom', Input::old('searchFrom'), array('id' => 'fromSearchAutocomplete' , 'class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group" id="AdvancedField1" style="display: none">
-                            <label class="col-lg-2 control-label" for="date">Date/Time</label>
-                            <div class="col-lg-10">
-                                <input class="form-control" type="datetime-local" name="date"/>
-                            </div>
-                        </div>
-                        <div class="form-group" id="AdvancedField2" style="display: none">
-                            {{ Form::label('seats', 'Seats Available', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group" id="AdvancedField3" style="display: none">
-                            {{ Form::label('price', 'Seat Price', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <div class="checkbox">
-                                    <label>
-                                        {{ Form::checkbox('advanced', 1, false, array('id' => 'advanced', 'onclick' => 'showAdvanced()')) }} Advanced
-                                    </label>
+
+        <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Advanced Ride Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Search Tab -->
+                        <div role="tabpanel" class="tab-pane active" id="search">
+                            {{ Form::open(array('method'=>'get', 'id' => 'searchForm', 'class' => 'form-horizontal', 'role' => 'form')) }}
+                            <div class="form-group" style="margin-top: 10px;">
+                                {{ Form::label('to', 'To', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('searchTo', Input::old('searchTo'), array('id' => 'toSearchAutocomplete', 'class' => 'form-control')) }}
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                {{ Form::submit('Submit Search', array('class' => 'btn btn-primary')) }}
+                            <div class="form-group">
+                                {{ Form::label('from', 'From', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('searchFrom', Input::old('searchFrom'), array('id' => 'fromSearchAutocomplete' , 'class' => 'form-control')) }}
+                                </div>
                             </div>
+                            <div class="form-group" id="AdvancedField1">
+                                <label class="col-lg-2 control-label" for="date">Date/Time</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" type="datetime-local" name="date"/>
+                                </div>
+                            </div>
+                            <div class="form-group" id="AdvancedField2">
+                                {{ Form::label('seats', 'Seats Available', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
+                                </div>
+                            </div>
+                            <div class="form-group" id="AdvancedField3">
+                                {{ Form::label('price', 'Seat Price', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ Form::hidden('advanced', 'true') }}
+                            </div>                        
                         </div>
-                        {{ Form::close() }}
                     </div>
-                    <!-- Offer Tab -->
-                    <div role="tabpanel" class="tab-pane" id="offer">
-                        {{ Form::open(array( 'action' => 'RideController@store', 'class' => 'form-horizontal', 'role' => 'form')) }}
-                        {{ Form::hidden('user_id', $currentUser->id, array('class' => 'form-control')) }}
-                        <div class="form-group" style="margin-top: 10px;">
-                            {{ Form::label('destination', 'To', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('destination', Input::old('destination'), array('id' => 'toOfferAutocomplete', 'class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ Form::label('origin', 'From', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('origin', Input::old('origin'), array('id' => 'fromOfferAutocomplete', 'class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label" for="date">Date/Time</label>
-                            <div class="col-lg-10">
-                                <input class="form-control" type="datetime-local" name="date"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ Form::label('seats', 'Seats Available', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ Form::label('price', 'Seat Price', array('class' => 'col-lg-2 control-label')) }}
-                            <div class="col-lg-10">
-                                {{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                {{ Form::submit('Create the Ride!', array('class' => 'btn btn-primary')) }}
-                            </div>
-                        </div>
-                        {{ Form::close() }}
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    {{ Form::submit('Submit Search', array('class' => 'btn btn-primary')) }}
                     </div>
+                    {{ Form::close() }}
                 </div>
-            <!-- /Tab Content -->
             </div>
         </div>
-<!-- /Search/Offer Tabs -->
-        <hr id="ride-divider">
+        
+        <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Offer a Ride</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Offer Tab -->
+                        <div role="tabpanel" class="tab-pane" id="offer">
+                            {{ Form::open(array( 'action' => 'RideController@store', 'class' => 'form-horizontal', 'role' => 'form')) }}
+                            {{ Form::hidden('user_id', $currentUser->id, array('class' => 'form-control')) }}
+                            <div class="form-group" style="margin-top: 10px;">
+                                {{ Form::label('destination', 'To', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('destination', Input::old('destination'), array('id' => 'toOfferAutocomplete', 'class' => 'form-control')) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('origin', 'From', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('origin', Input::old('origin'), array('id' => 'fromOfferAutocomplete', 'class' => 'form-control')) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label" for="date">Date/Time</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" type="datetime-local" name="date"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('seats', 'Seats Available', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('seats', Input::old('seats'), array('class' => 'form-control')) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('price', 'Seat Price', array('class' => 'col-lg-2 control-label')) }}
+                                <div class="col-lg-10">
+                                    {{ Form::text('price', Input::old('price'), array('class' => 'form-control')) }}
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        {{ Form::submit('Create the Ride!', array('class' => 'btn btn-primary')) }}
+                    </div>
+                    {{ Form::close() }}
+                </div>
+            </div>
+        </div>
+        
+<!-- Search/Offer Tabs -->
+        <div class="row" id="ride-tabs">
+            <div class="col-lg-12" id="rides-header">
+                <h2 style="margin-top: 0px">Available Rides</h2>
+            </div>
+            <div class="col-lg-12">
+                {{ Form::open(array('method'=>'get', 'id' => 'searchForm', 'class' => 'form-horizontal', 'role' => 'form')) }}
+                <div class="input-group">
+                    {{ Form::text('search', Input::old('search'), array('id' => 'searchAutocomplete', 'class' => 'form-control', 'placeholder' => 'Search Rides')) }}
+                    <span class="input-group-btn">
+                        {{ Form::submit('Search', array('class' => 'btn btn-primary')) }}
+                    </span>
+                </div>
+                {{ Form::close() }}
+            </div>
+            <div class="col-lg-12" style="margin-top: 1em; margin-bottom: 1em">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group btn-group-justified">
+                    <div class="btn-group"><a href="#search" data-toggle="modal" data-target="#searchModal"><button type="button" class="btn btn-default">Advanced Search</button></a></div>
+                    <div class="btn-group"><a href="#search" data-toggle="modal" data-target="#offerModal"><button type="button" class="btn btn-default">Offer a Ride</button></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 <!-- Available Rides -->
         <div class="row">
-            <div class="col-lg-12" id="rides-header">
-                <h2>Available Rides</h2>
-            </div>
             <div class="col-lg-12" id="available-rides" style="overflow-y: scroll">
                 @foreach($rides as $ride)
                 @if($ride->availableSeats()>0)
@@ -344,7 +379,6 @@ Height is set on page load in footer script.
 
 @section('footer-resources')
 <script type="text/javascript">
-
     function setRidesListHeight(){
         var ridesList = document.getElementById('available-rides');
 
@@ -353,7 +387,7 @@ Height is set on page load in footer script.
         var divideHeight = $('#ride-divider').outerHeight(true);
         var headerHeight = $('#rides-header').outerHeight(true);
 
-        var listHeight = height - tabsHeight - divideHeight - headerHeight;
+        var listHeight = height - tabsHeight - divideHeight; // - headerHeight;
         ridesList.style.height = listHeight + 'px';
     }
 
@@ -369,7 +403,7 @@ Height is set on page load in footer script.
         var headerHeight = $('#header').outerHeight(true) + $('#leaderboard').outerHeight(true) + $('#page-header').outerHeight(true);
         var footerHeight = $('#footer').outerHeight(true);
 
-        var newHeight = height - headerHeight - footerHeight - 45;
+        var newHeight = height - headerHeight - footerHeight;
         mapDiv.style.height = newHeight + 'px';
         rightDiv.style.height = newHeight + 'px';
         //google.maps.event.trigger(map, "resize");
