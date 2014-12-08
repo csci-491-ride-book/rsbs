@@ -69,31 +69,47 @@
         google.maps.event.addListener(searchAutocomplete, 'place_changed', function(){
             var box = document.getElementById('searchAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + "," + placeComponents[1];
+            var output = placeComponents[0]
             box.value = output;
         });
         google.maps.event.addListener(toSearchAutocomplete, 'place_changed', function(){
             var box = document.getElementById('toSearchAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + "," + placeComponents[1];
+            if (placeComponents[1]){
+                var output = placeComponents[0] + "," + placeComponents[1];
+            } else {
+                var output = placeComponents[0];
+            }
             box.value = output;
         });
         google.maps.event.addListener(fromSearchAutocomplete, 'place_changed', function(){
             var box = document.getElementById('fromSearchAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + "," + placeComponents[1];
+            if (placeComponents[1]){
+                var output = placeComponents[0] + "," + placeComponents[1];
+            } else {
+                var output = placeComponents[0];
+            }
             box.value = output;
         });
         google.maps.event.addListener(toOfferAutocomplete, 'place_changed', function(){
             var box = document.getElementById('toOfferAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + "," + placeComponents[1];
+            if (placeComponents[1]){
+                var output = placeComponents[0] + "," + placeComponents[1];
+            } else {
+                var output = placeComponents[0];
+            }
             box.value = output;
         });
         google.maps.event.addListener(fromOfferAutocomplete, 'place_changed', function(){
             var box = document.getElementById('fromOfferAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0] + "," + placeComponents[1];
+            if (placeComponents[1]){
+                var output = placeComponents[0] + "," + placeComponents[1];
+            } else {
+                var output = placeComponents[0];
+            }
             box.value = output;
         });
     }
@@ -174,17 +190,7 @@
 
 @section('content')
 <!-- Page Header/User -->
-<div class="row" id="page-header">
-    <div class="col-lg-6 text-left">
-        <h1>Find a Ride</h1>
-    </div>
-    <div class="col-lg-5 text-right">
-        Logged in as <a href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a>
-    </div>
-    <div class="col-lg-1 text-left">
-        <a href="?logout">Sign Out</a>
-    </div>
-</div>
+
 
 <!-- Display Errors/Messages -->
 @if (Session::has('message'))
@@ -325,7 +331,7 @@ Height is set on page load in footer script.
 <!-- Search/Offer Tabs -->
         <div class="row" id="ride-tabs">
             <div class="col-lg-12" id="rides-header">
-                <h2 style="margin-top: 0px">Available Rides</h2>
+                <h2 style="margin-top: 0.2em; margin-bottom: 0.4em">Available Rides</h2>
             </div>
             <div class="col-lg-12">
                 {{ Form::open(array('method'=>'get', 'id' => 'searchForm', 'class' => 'form-horizontal', 'role' => 'form')) }}
@@ -360,13 +366,17 @@ Height is set on page load in footer script.
                         <h4>From: {{ $ride->origin }}</h4>
                     </div>
                     <div class="col-lg-3 text-right" id="ride-list-item-date">
-                        <h5><?php
-                            $date = new DateTime($ride->date);
-                            echo $date->format('m/d/y')
-                        ?></h5>
+                        <h5>
+                            <?php
+                                $date = new DateTime($ride->date);
+                                echo $date->format('m/d/y');
+                            ?>
+                        </h5>
+                        <h6>
+                            {{ $date->format('h:i A') }}
+                        </h6>
                     </div>
                 </div>
-                <hr>
                 @endif
                 @endforeach
             </div>

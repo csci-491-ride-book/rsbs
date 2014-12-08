@@ -11,6 +11,14 @@ and open the template in the editor.
 
 #ride-list-item {
     position: relative;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #DDDDDD
+}
+#ride-list-item:hover{
+    background-color: #EEEEEE;
 }
 
 #ride-list-item a {
@@ -23,4 +31,24 @@ and open the template in the editor.
     background-color: #FFFFFF;
     opacity: 0;
     filter: alpha(opacity=1);
+}
+
+.pac-container {
+    background-color: #FFF;
+    z-index: 20;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+.modal{
+    z-index: 20;   
+}
+.modal-backdrop{
+    z-index: 0;
+}​
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+    border:2px solid transparent;
 }
