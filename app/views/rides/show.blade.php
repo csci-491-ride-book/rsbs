@@ -5,15 +5,9 @@
 @stop
 
 @section('content')
-<div class="row" id="page-header">
+<div class="row">
     <div class="col-lg-6 text-left">
         <h1>Ride Details</h1>
-    </div>
-    <div class="col-lg-5 text-right">
-        Logged in as <a href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a>
-    </div>
-    <div class="col-lg-1 text-left">
-        <a href="?logout">Sign Out</a>
     </div>
 </div>
 <div class="row">
