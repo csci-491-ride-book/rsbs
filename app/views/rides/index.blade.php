@@ -331,7 +331,7 @@ Height is set on page load in footer script.
 <!-- Search/Offer Tabs -->
         <div class="row" id="ride-tabs">
             <div class="col-lg-12" id="rides-header">
-                <h2 style="margin-top: 0.2em; margin-bottom: 0.4em">Available Rides</h2>
+                <h2 style="margin-top: 0.4em; margin-bottom: 0.4em">Available Rides</h2>
             </div>
             <div class="col-lg-12">
                 {{ Form::open(array('method'=>'get', 'id' => 'searchForm', 'class' => 'form-horizontal', 'role' => 'form')) }}
