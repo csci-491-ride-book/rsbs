@@ -55,13 +55,13 @@
                         {{ $ride->availableSeats() }}
                     </div>
                     @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id))
-                        @if ($ride->requestedBy($currentUser->id))
-                        <div class="col-sm-4 hidden-xs">
-                            <i>Ride Requested</i>
-                        </div>
-                        @elseif ($ride->passengers->contains($currentUser->id))
+                        @if ($ride->passengers->contains($currentUser->id))
                         <div class="col-sm-4 hidden-xs">
                             <i>Ride Confirmed</i>
+                        </div>
+                        @elseif ($ride->requestedBy($currentUser->id))
+                        <div class="col-sm-4 hidden-xs">
+                            <i>Ride Requested</i>
                         </div>
                         @else
                         {{ Form::open(array('action' => 'RideController@addRequest')) }}
@@ -100,8 +100,17 @@
                         </div>
                     </div>
                 @endfor
-                @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id) && (!$ride->requestedBy($currentUser->id)))
-                    <div class="row visible-xs" role="group">
+                @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id))
+                <div class="row visible-xs" role="group">
+                     @if ($ride->passengers->contains($currentUser->id))
+                        <div class="col-xs-12 text-center">
+                            <i>Ride Confirmed</i>
+                        </div>
+                     @elseif ($ride->requestedBy($currentUser->id))
+                        <div class="col-xs-12 text-center">
+                            <i>Ride Requested</i>
+                        </div>
+                     @else
                         <div class="col-xs-12">
                         {{ Form::open(array('action' => 'RideController@addRequest')) }}
                         {{ Form::hidden('rideId', $ride->id) }}
@@ -109,7 +118,8 @@
                         {{ Form::submit('Request Ride', array('class' => 'btn btn-primary btn-block')) }}
                         {{ Form::close() }}
                         </div>
-                    </div>
+                    @endif
+                </div>
                 @endif
             </div>
         </div>
@@ -128,6 +138,7 @@
                         <tr>
                             <th>Requester</th>
                             <th>Request Date</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
