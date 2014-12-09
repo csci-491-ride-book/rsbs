@@ -16,53 +16,53 @@
             <div class="panel-body">
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Destination:</label>
-                    <div class="col-xs-6 col-sm-4 text-right">
+                    <label class="control-label col-xs-6 col-sm-4 text-right">
                         {{ $ride->destination }}
-                    </div>
+                    </label>
                 </div>
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Origin:</label>
-                    <div class="col-xs-6 col-sm-4 text-right">
+                    <label class="control-label col-xs-6 col-sm-4 text-right">
                         {{ $ride->origin }}
-                    </div>
+                    </label>
                 </div>
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Departure Date:</label>
-                    <div class="col-xs-6 col-sm-4 text-right">
+                    <label class="control-label col-xs-6 col-sm-4 text-right">
                         <?php
                              $date = new DateTime($ride->date);
                              echo $date->format('m/d/y')
                         ?>
-                    </div>
+                    </label>
                 </div>
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Departure Time:</label>
-                    <div class="col-xs-6 col-sm-4 text-right">
+                    <label class="control-label col-xs-6 col-sm-4 text-right">
                         <?php
                              echo $date->format('g:i A')
                         ?>
-                    </div>
+                    </label>
                 </div>
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Driver:</label>
-                    <div class="col-xs-6 col-sm-4 text-right">
+                    <a class="control-label col-xs-6 col-sm-4 text-right" href="{{ route('users.show', $driver->id) }}">
                         {{ $driver->display_name }}
-                    </div>
+                    </a>
                 </div>
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Open Seats:</label>
-                    <div class="col-xs-6 col-sm-4 text-right">
+                    <label class="control-label col-xs-6 col-sm-4 text-right">
                         {{ $ride->availableSeats() }}
-                    </div>
+                    </label>
                     @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id))
                         @if ($ride->passengers->contains($currentUser->id))
-                        <div class="col-sm-4 hidden-xs">
+                        <label class="control-label col-sm-4 hidden-xs">
                             <i>Ride Confirmed</i>
-                        </div>
+                        </label>
                         @elseif ($ride->requestedBy($currentUser->id))
-                        <div class="col-sm-4 hidden-xs">
+                        <label class="control-label col-sm-4 hidden-xs">
                             <i>Ride Requested</i>
-                        </div>
+                        </label>
                         @else
                         {{ Form::open(array('action' => 'RideController@addRequest')) }}
                         {{ Form::hidden('rideId', $ride->id) }}
@@ -77,13 +77,13 @@
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Confirmed Riders:</label>
                     @if ($passengers->count()>0)
-                        <div class="col-xs-6 col-sm-4 text-right">
+                        <a class="control-label col-xs-6 col-sm-4 text-right" href="{{ route('users.show', $passengers[0]->id) }}">
                             {{ $passengers[0]->display_name }}
-                        </div>
+                        </a>
                     @else
-                        <div class="col-xs-6 col-sm-4 text-right">
-                            <i>Available</i>
-                        </div>
+                        <label class="control-label col-xs-6 col-sm-4 text-right">
+                            Available
+                        </label>
                     @endif
                 </div>
                 @for ($i = 1; $i < $passengers->count(); $i++)
