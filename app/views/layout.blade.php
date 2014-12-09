@@ -22,7 +22,7 @@
     </head>
     <body>
         <div class="container-fluid">
-<!-- Header -->
+<!-- Headers -->
     <!-- Non-phone Header -->
             <div class="row hidden-xs" id="page-header">
                 <div class="col-xs-12" style="background-color:#003f87; margin: 0; padding: 0; width: 100%; position:relative">
@@ -52,7 +52,7 @@
                 </div>
             </div>
     <!-- /Phone Header -->
-<!-- /Header -->
+<!-- /Headers -->
             <div class="clearfix"></div>
 <!-- Page Content -->
             @yield('content')

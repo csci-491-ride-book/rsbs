@@ -9,6 +9,7 @@
 class RideController extends BaseController {
 
     protected function getRides() {
+        // Advanced Search
         if (Input::has('searchTo') || Input::has('searchFrom')){
             $rides = Ride::where(function($query)
             {
@@ -20,7 +21,6 @@ class RideController extends BaseController {
                 if (Input::has('searchFrom')) {
                     $query->where('origin', 'LIKE', '%' . Input::get('searchFrom') . '%');
                 }
-
                 // If advanced is checked
                 if (Input::has('advanced')) {
                     // Try to add price
@@ -38,12 +38,14 @@ class RideController extends BaseController {
                 }
             })->where('date', '>', new DateTime('now'))->orderBy('date', 'asc')->get();
         } else {
+            // Simple Search
             if (Input::has('search')){
                 $rides = Ride::where(function($query){
                                         $query->where('destination', 'LIKE', '%' . Input::get('search') . '%')
                                               ->orwhere('origin', 'LIKE', '%' . Input::get('search') . '%');
                                     })->where('date', '>', new DateTime('now'))->orderBy('date', 'asc')->get();
             }
+            // Empty Simple Search Form
             else {
                 $rides = Ride::where('date', '>', new DateTime('now'))->orderBy('date', 'asc')->get();
             }
