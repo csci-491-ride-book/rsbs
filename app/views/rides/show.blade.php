@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 @endfor
-                @for ($j=1 ; $j < $ride->availableSeats()+$passengers->count(); $j++)
+                @for ($j=0 ; $j < $ride->seats-$passengers->count()-1; $j++)
                     <div class="row">
                         <div class="col-xs-offset-6 col-xs-6 col-sm-offset-4  col-sm-4 text-right">
                             <i>Available</i>
