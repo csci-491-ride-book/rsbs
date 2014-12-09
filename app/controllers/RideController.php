@@ -36,16 +36,19 @@ class RideController extends BaseController {
                         $query->where('seats', 'LIKE', '%' . Input::get('seats') . '%');
                     }
                 }
+                
+                $query->where('date', '>', new DateTime('today'));
             })->orderBy('date', 'asc')->get();
         } else {
             if (Input::has('search')){
-                $rides =Ride::where(function($query){
+                $rides = Ride::where(function($query){
                                         $query->where('destination', 'LIKE', '%' . Input::get('search') . '%')
                                               ->orwhere('origin', 'LIKE', '%' . Input::get('search') . '%');
+                                        $query->where('date', '>', new DateTime('today'));
                                     })->orderBy('date', 'asc')->get();
             }
             else {
-                $rides = Ride::orderBy('date', 'asc')->get();
+                $rides = Ride::where('date', '>', new DateTime('today'))->orderBy('date', 'asc')->get();
             }
         }
         return $rides;
