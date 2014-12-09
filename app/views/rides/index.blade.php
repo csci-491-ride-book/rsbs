@@ -198,13 +198,13 @@
 <!-- Display Errors/Messages -->
 @if (Session::has('message'))
     @if ($errors->count() > 0)
-        <div class="alert alert-danger alert-dismissible" id="messages">
+        <div class="alert alert-danger alert-dismissible" id="messages" style="margin: 10px;">
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             {{ Session::get('message') }}
             {{ HTML::ul($errors->all()) }}
         </div>
     @else
-        <div class="alert alert-success alert-dismissible" id="messages">
+        <div class="alert alert-success alert-dismissible" id="messages" style="margin: 10px;">
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             {{ Session::get('message') }}
         </div>
@@ -332,16 +332,13 @@ Hidden on phone sized devices.
         </div>
         
 <!-- Search/Offer Tabs -->
-        <div class="row" id="ride-tabs">
-            <div class="col-lg-12" id="rides-header">
-                <h2 style="margin-top: 0.4em; margin-bottom: 0.4em">Available Rides</h2>
-            </div>
-            <div class="col-lg-12">
+        <div class="row" id="ride-tabs" style="background-color: #003f87">
+            <div class="col-lg-12" style="margin-top: 1em">
                 {{ Form::open(array('method'=>'get', 'id' => 'searchForm', 'class' => 'form-horizontal', 'role' => 'form')) }}
                 <div class="input-group">
                     {{ Form::text('search', Input::old('search'), array('id' => 'searchAutocomplete', 'class' => 'form-control', 'placeholder' => 'Search Rides')) }}
                     <span class="input-group-btn">
-                        {{ Form::submit('Search', array('class' => 'btn btn-primary')) }}
+                        {{ Form::submit('Search', array('class' => 'btn btn-default')) }}
                     </span>
                 </div>
                 {{ Form::close() }}

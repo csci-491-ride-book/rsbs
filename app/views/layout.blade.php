@@ -24,45 +24,30 @@
         <div class="container-fluid">
 <!-- Header -->
     <!-- Non-phone Header -->
-            <div class="row hidden-xs" id="page-header" style="background: url({{ Asset('assets/images/banner.jpg') }}) center no-repeat;">
-                <div class="col-xs-1">
-                    <img id="wwu-logo"
-                         src="{{asset('assets/images/westernlogo_sm_white.png')}}"
-                         style="padding: 1em;
-                         margin-left: 10%;
-                         background-color:#003f87;
-                         position: relative;
-                         z-index: 2" />
-                </div>
-                <div class="col-xs-11"
-                     style="background-color:#2b7cd1;
-                     margin: 0;
-                     position:absolute;
-                     width: 100%;
-                     top: 2em">
-                    <div class="row" id="bannertitle">
-                        <h3 class="col-xs-9" style="color: white; margin-top: 0.4em; margin-bottom: 0.4em">Western Washington University Ride Sharing</h3>
-                        <div class="col-xs-3 text-right" style="margin-top: 0.4em; margin-bottom: 0.4em">
-                            <div style="color: white; display: inline-block">
-                                Logged in as <b><a style="color: white" href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a></b>
-                            </div>
-                            <div style="padding-left: 1em; text-align: right; color: white; display: inline-block">
-                                <b><a style="color: white" href="?logout">(Logout)</a></b>
-                            </div>
+            <div class="row hidden-xs" id="page-header">
+                <div class="col-xs-12" style="background-color:#003f87; margin: 0; padding: 0; width: 100%; position:relative">
+                    <a href="/"><img id="wwu-logo" src="{{asset('assets/images/logo_small.png')}}" style="position:absolute; top:50%; height:30px; margin-top: -15px; margin-left: 10px;" />
+                    <h3 style="color: white; margin-left: 100px; margin-top: 0.6em; margin-bottom: 0.6em; float: left; color: #42b6e8; font-family: Georgia, serif">Western Washington University Ride Sharing</h3></a>
+                    <div style="margin-top: 0.4em; margin-right: 0.4em; float: right">
+                        <div style="color: white; display: inline-block">
+                            Logged in as <b><a style="color: white" href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a></b>
+                        </div>
+                        <div style="padding-left: 1em; text-align: right; color: white; display: inline-block">
+                            <b><a style="color: white" href="?logout">(Logout)</a></b>
                         </div>
                     </div>
                 </div>
             </div>
     <!-- /Non-phone Header -->
     <!-- Phone Header -->
-            <div class="row visible-xs">
-                <h1 class="col-xs-8">WWU Ride Sharing</h1>
-                <div class="col-xs-4 text-right">
+            <div class="row visible-xs" style="background-color:#003f87">
+                <h1 class="col-xs-8" style="margin-top: 0.4em; margin-bottom: 0.4em; font-family: Georgia, serif; color: #42b6e8">Western Ride Sharing</h1>
+                <div class="col-xs-4 text-right" style="color:white">
                     <div>
-                        Logged in as <b><a href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a></b>
+                        Logged in as <b><a style="color: white" href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a></b>
                     </div>
                     <div>
-                        <b><a href="?logout">(Logout)</a></b>
+                        <b><a style="color: white" href="?logout">(Logout)</a></b>
                     </div>
                 </div>
             </div>
@@ -91,13 +76,16 @@
             document.getElementById("bannertitle").style.marginLeft = offset + "px";
             document.getElementById("bannertitle").style.right = docWidth + "px";
         }
+        function setLogoSize(){
+            
+        }
         // Window Load event. Inject JS functions in a windowLoadEvent section
         $(window).load(function() {
-            setPageHeaderOffset();
+            //setPageHeaderOffset();
             @yield('windowLoadEvent')
         });
         $(window).resize(function(){
-            setPageHeaderOffset();
+            //setPageHeaderOffset();
             @yield('windowResizeEvent')
         })
     </script>
