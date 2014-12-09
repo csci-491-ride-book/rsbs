@@ -8,7 +8,7 @@ class Ride extends Eloquent {
     }
 
     public function passengers() {
-        return $this->belongsToMany('User');
+        return $this->belongsToMany('User')->withTimestamps();
     }
 
     public function requests() {
@@ -19,8 +19,9 @@ class Ride extends Eloquent {
         return $this->hasMany('RideComment');
     }
 
-    public function requestedBy($userId) {
-        foreach($this->requests as $request) {
+    public function requestedBy($userId)
+    {
+        foreach ($this->requests as $request) {
             if ($request->user_id === $userId) {
                 return true;
             }

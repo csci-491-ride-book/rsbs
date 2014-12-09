@@ -69,7 +69,11 @@
         google.maps.event.addListener(searchAutocomplete, 'place_changed', function(){
             var box = document.getElementById('searchAutocomplete');
             var placeComponents = box.value.split(",");
-            var output = placeComponents[0]
+            if (placeComponents[1]){
+                var output = placeComponents[0] + "," + placeComponents[1];
+            } else {
+                var output = placeComponents[0];
+            }
             box.value = output;
         });
         google.maps.event.addListener(toSearchAutocomplete, 'place_changed', function(){
@@ -191,7 +195,6 @@
 @section('content')
 <!-- Page Header/User -->
 
-
 <!-- Display Errors/Messages -->
 @if (Session::has('message'))
     @if ($errors->count() > 0)
@@ -213,13 +216,13 @@
 <!--
 Map - 2/3 of page on left
 Height is set on page load in footer script.
+Hidden on phone sized devices.
 -->
-    <div class="col-lg-8" id="map-div"></div>
+    <div class="hidden-xs col-sm-8" id="map-div"></div>
 <!-- /Map -->
 
 <!-- RightSide - 1/3 of page on right -->
-    <div class="col-lg-4" id="right-div">
-
+    <div class="col-sm-4 col-xs-12" id="right-div">
         <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -354,18 +357,18 @@ Height is set on page load in footer script.
         </div>
 <!-- Available Rides -->
         <div class="row">
-            <div class="col-lg-12" id="available-rides" style="overflow-y: scroll">
+            <div class="col-xs-12" id="available-rides" style="overflow-y: auto">
                 @foreach($rides as $ride)
                 @if($ride->availableSeats()>0)
-                <div class="row" id="ride-list-item"
+                <div class="row ride-list-item"
                     onmouseover="showRoute(this,'{{ $ride->destination }}', '{{ $ride->origin }}');"
                     onmouseout="hideRoute();">
                     <a href="{{ route('rides.show', $ride->id) }}"></a>
-                    <div class="col-lg-9 text-left" id="ride-list-item-to-from">
+                    <div class="col-xs-9 text-left">
                         <h4>To: {{ $ride->destination }}</h4>
                         <h4>From: {{ $ride->origin }}</h4>
                     </div>
-                    <div class="col-lg-3 text-right" id="ride-list-item-date">
+                    <div class="col-xs-3 text-right">
                         <h5>
                             <?php
                                 $date = new DateTime($ride->date);
@@ -389,6 +392,19 @@ Height is set on page load in footer script.
 
 @section('footer-resources')
 <script type="text/javascript">
+    function setMapDivHeight() {
+        var mapDiv = document.getElementById('map-div');
+        var rightDiv = document.getElementById('right-div');
+
+        var height = window.innerHeight;
+        var headerHeight = $('#header').outerHeight(true) + $('#leaderboard').outerHeight(true) + $('#page-header').outerHeight(true);
+        var footerHeight = $('#footer').outerHeight(true);
+
+        var newHeight = height - headerHeight - footerHeight;
+        mapDiv.style.height = newHeight + 'px';
+        rightDiv.style.height = newHeight + 'px';
+    }
+
     function setRidesListHeight(){
         var ridesList = document.getElementById('available-rides');
 
@@ -400,25 +416,19 @@ Height is set on page load in footer script.
         var listHeight = height - tabsHeight - divideHeight; // - headerHeight;
         ridesList.style.height = listHeight + 'px';
     }
-
-    $(document).on('shown.bs.tab', 'a[data-toggle="pill"]', function(){
-        setRidesListHeight();
-    });
-
-    $(window).load(function(){
-        var mapDiv = document.getElementById('map-div');
-        var rightDiv = document.getElementById('right-div');
-
-        var height = window.innerHeight;
-        var headerHeight = $('#header').outerHeight(true) + $('#leaderboard').outerHeight(true) + $('#page-header').outerHeight(true);
-        var footerHeight = $('#footer').outerHeight(true);
-
-        var newHeight = height - headerHeight - footerHeight;
-        mapDiv.style.height = newHeight + 'px';
-        rightDiv.style.height = newHeight + 'px';
-        //google.maps.event.trigger(map, "resize");
-
-        setRidesListHeight();
-    });
 </script>
+@stop
+
+@section('windowLoadEvent')
+if (isBreakpoint('sm')||isBreakpoint('md')||isBreakpoint('lg')) {
+    setMapDivHeight();
+    setRidesListHeight();
+}
+@stop
+
+@section('windowResizeEvent')
+if (isBreakpoint('sm')||isBreakpoint('md')||isBreakpoint('lg')) {
+    setMapDivHeight();
+    setRidesListHeight();
+}
 @stop

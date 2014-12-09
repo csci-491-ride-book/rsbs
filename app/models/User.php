@@ -21,7 +21,7 @@ class User extends Eloquent {
      *                   ride - ride_id
      */
     protected function ridesAsPassenger() {
-        return $this->belongsToMany('Ride');
+        return $this->belongsToMany('Ride')->withTimestamps();
     }
 
     /**

@@ -102,12 +102,14 @@ class RideController extends BaseController {
         $driver = User::find($ride->user_id);
         $passengers = $ride->passengers;
         $comments = $ride->comments;
+        $requests = $ride->requests;
 
         return View::make('rides.show', array(
             'ride' => $ride,
             'driver' => $driver,
             'passengers' => $passengers,
-            'comments' => $comments));
+            'comments' => $comments,
+            'requests' => $requests));
     }
 
     public function edit($id) {
@@ -130,6 +132,14 @@ class RideController extends BaseController {
         $ride->save();
 
         return Redirect::route('rides.show', $ride->id);
+    }
+
+    public function confirmRequest() {
+        $user = User::find(Input::get('requesterId'));
+        Ride::find(Input::get('rideId'))->passengers()->save($user);
+        RideRequest::destroy(Input::get('requestId'));
+
+        return Redirect::route('rides.show', Input::get('rideId'));
     }
 
     public function addComment() {
