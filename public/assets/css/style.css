@@ -17,7 +17,7 @@ and open the template in the editor.
     border-bottom-style: solid;
 }
 .ride-list-item:hover{
-    background-color: #EEEEEE;
+    background-color: #d9edf9;
 }
 
 .ride-list-item a {
@@ -50,4 +50,17 @@ and open the template in the editor.
     outline: none;
     box-shadow: none;
     border:2px solid transparent;
+}
+
+#ride-tabs .btn-default {
+    color: white;
+    background-color: #2b7cd1;
+    background-image: none;
+    border-color: #003f87;
+    text-shadow: none;
+}
+
+#ride-tabs .btn-default:hover {
+    background-color: #4994e3;
+    background-image: none;
 }
