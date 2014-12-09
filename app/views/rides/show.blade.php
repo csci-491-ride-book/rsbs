@@ -54,18 +54,24 @@
                     <div class="col-xs-6 col-sm-4 text-right">
                         {{ $ride->availableSeats() }}
                     </div>
-                    @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id) && (!$ride->requestedBy($currentUser->id)))
-                        {{ Form::open(array('action' => 'RideController@addRequest')) }}
-                        {{ Form::hidden('rideId', $ride->id) }}
-                        {{ Form::hidden('userId', $currentUser->id) }}
-                        <div class="col-xs-4 hidden-xs">
-                        {{ Form::submit('Request Ride', array('class' => 'btn btn-primary btn-xs')) }}
-                        </div>
-                        {{ Form::close() }}
-                    @elseif(($ride->availableSeats()>0) && ($driver->id !== $currentUser->id) && ($ride->requestedBy($currentUser->id)))
+                    @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id))
+                        @if ($ride->requestedBy($currentUser->id))
                         <div class="col-sm-4 hidden-xs">
                             <i>Ride Requested</i>
                         </div>
+                        @elseif ($ride->passengers->contains($currentUser->id))
+                        <div class="col-sm-4 hidden-xs">
+                            <i>Ride Confirmed</i>
+                        </div>
+                        @else
+                        {{ Form::open(array('action' => 'RideController@addRequest')) }}
+                        {{ Form::hidden('rideId', $ride->id) }}
+                        {{ Form::hidden('userId', $currentUser->id) }}
+                        <div class="col-sm-4 hidden-xs">
+                        {{ Form::submit('Request Ride', array('class' => 'btn btn-primary btn-xs')) }}
+                        </div>
+                        {{ Form::close() }}
+                        @endif
                     @endif
                 </div>
                 <div class="row">
@@ -83,7 +89,7 @@
                 @for ($i = 1; $i < $passengers->count(); $i++)
                     <div class="row">
                         <div class="col-xs-offset-6 col-xs-6 col-sm-offset-4  col-sm-4 text-right">
-                            {{ $passengers[i]->display_name }}
+                            {{ $passengers[$i]->display_name }}
                         </div>
                     </div>
                 @endfor
