@@ -93,7 +93,11 @@
                         </a>
                     </div>
                 @endfor
-                @for ($j=1 ; $j < $ride->seats-$passengers->count(); $j++)
+                <!-- TODO Fix this -->
+                @for ($j=0 ; $j < $ride->seats-$passengers->count(); $j++)
+                    @if ($j === 0 && $passengers->count() === 0)
+                    <?php $j++ ?>
+                    @endif
                     <div class="row">
                         <div class="control-label col-xs-offset-6 col-xs-6 col-sm-offset-4 col-sm-4 text-right">
                             <i>Available</i>
