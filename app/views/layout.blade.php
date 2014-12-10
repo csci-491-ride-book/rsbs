@@ -26,7 +26,7 @@
     <!-- Non-phone Header -->
             <div class="row hidden-xs" id="page-header">
                 <div class="col-xs-12" style="background-color:#003f87; margin: 0; padding: 0; width: 100%; position:relative">
-                    <a href="/"><img id="wwu-logo" src="{{asset('assets/images/logo_small.png')}}" style="position:absolute; top:50%; height:30px; margin-top: -15px; margin-left: 10px;" />
+                    <a href="/"><img id="wwu-logo" src="{{asset('assets/images/logo_small.png')}}" style="position:absolute; left: 0; top:50%; height:30px; margin-top: -15px; margin-left: 10px" />
                     <h3 style="color: white; margin-left: 100px; margin-top: 0.6em; margin-bottom: 0.6em; float: left; color: #42b6e8; font-family: Georgia, serif">Western Washington University Ride Sharing</h3></a>
                     <div style="margin-top: 0.4em; margin-right: 0.4em; float: right">
                         <div style="color: white; display: inline-block">
