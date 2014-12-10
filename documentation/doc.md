@@ -10,19 +10,15 @@ This one is a bit more complicated. The most annoying part being the setup.
 
 #### Enviroment Setup
 
-The Ride Sharing app is written in laravel, so you'll need to first set up a laravel development enviroment.
+The Ride Sharing app is written in laravel, so you'll need to first set up a laravel development enviroment. Laravel requires php 5.4 or greater, so make sure you have that installed on your development machine before continuing.
 
-Laravel requires php5.4 or greater, so make sure you have that installed on your development machine before continuing.
+After cloning the repository you will need to download composer, which manages the dependencies of the project for you. Get it via https://getcomposer.org/download/ and put it in the root directory of the project. Then simply run `php composer update`. You will need php-cli to perform this action if you don't have it installed. Now go make a coffee while composer sets up the dependencies for you; it will take a minute or two.
 
-After cloning the repository you will need to download composer, which manages the dependencies of the project for you. Get it via https://getcomposer.org/download/ and put it in the root directory of the project. Then simply run `php composer update`. You will need php-cli. Now go make a coffee while composer sets up the dependencies for you; it will take a minute or two.
+After composer sets up the project dependencies, you will need to set up your database. Pick whatever flavor of database engine you'd like to use and make a user and database for this project. Then add a `/app/config/database.php` file to the project with the database connection information. A example is provided in `/app/config/database.php.example` with mysql as the driver.
 
-After composer sets up the project dependencies, you will need to set up your database. Pick whatever flavor of database engine you'd like to use and make a user and database for this project. Then add a `/app/config/database.php` file with the database connection information. A example is provided in `/app/config/database.php.example` with mysql as the driver.
+You can now try to migrate the tables with `php artisan migrate`. If you hit an error, either your database information hasn't been filled out correctly or php is missing the driver extension for the database engine you picked. After building the tables, you can run the app in a development enviroment with `php artisan serve`, which should put the site up at localhost:8000/.
 
-You can now try to migrate the tables with `php artisan migrate`. If you hit an error, either your database information hasn't been filled out correctly or php is missing the driver extension for the database engine you picked.
-
-After building the tables, you can run the app in a development enviroment with `php artisan serve`, which should put the site up at localhost:8000/.
-
-To put the app on a server for production, you should install and configure a webserver. A sample nginx configuration for this app is:
+To put the app on a server for production, you should install and configure a webserver; we used nginx. A sample nginx configuration for this app is:
 
 ```
 server {
@@ -63,8 +59,8 @@ server {
 }
 ```
 
-Permission problems will likely ensue, so you should fix those and make sure your webserver has write access to `/app/storage/`. The app should be up and running at this point. If laravel complains when you're running on the webserver you probably don't have the `php-curl` and `php-mcrypt` modules installed.
+Permission problems will likely ensue, so you should fix those and make sure your webserver has write access to `/app/storage/`. The app should be up and running at this point. If laravel complains when you're running on the webserver, you probably don't have the `php-curl` and `php-mcrypt` modules installed.
 
 #### Development
 
-The app is pretty much entirely written following Laravel's development practices, so you all you need to do is read the docs: http://laravel.com/docs/4.2
+The app is pretty much entirely written following standard Laravel development practices, so you all you need to do is read the docs: http://laravel.com/docs/4.2
