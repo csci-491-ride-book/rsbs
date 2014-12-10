@@ -94,16 +94,23 @@
                     </div>
                 @endfor
                 <!-- TODO Fix this -->
-                @for ($j=0 ; $j < $ride->seats-$passengers->count(); $j++)
-                    @if ($j === 0 && $passengers->count() === 0)
-                    <?php $j++ ?>
-                    @endif
+                @if ($passengers->count() === 0)
+                @for ($j=1; $j < $ride->seats; $j++)
                     <div class="row">
                         <label class="control-label col-xs-offset-6 col-xs-6 col-sm-offset-4 col-sm-4 text-right">
                             <i>Available</i>
                         </label>
                     </div>
                 @endfor
+                @else
+                @for ($j=0; $j < $ride->seats-$passengers->count(); $j++)
+                    <div class="row">
+                        <label class="control-label col-xs-offset-6 col-xs-6 col-sm-offset-4 col-sm-4 text-right">
+                            <i>Available</i>
+                        </label>
+                    </div>
+                @endfor
+                @endif
                 @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id))
                 <div class="row visible-xs" role="group">
                      @if ($ride->passengers->contains($currentUser->id))
