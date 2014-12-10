@@ -6,7 +6,7 @@ User documentation isn't really needed, as the app is quite simple and intuitive
 
 ## Developer Documentation
 
-This one is a bit more complicated.
+This one is a bit more complicated. The most annoying part being the setup.
 
 #### Enviroment Setup
 
@@ -63,5 +63,8 @@ server {
 }
 ```
 
-Permission problems will likely ensue, so you should fix those and make sure nginx has write access to `/app/storage/`.
+Permission problems will likely ensue, so you should fix those and make sure your webserver has write access to `/app/storage/`. The app should be up and running at this point. If laravel complains when you're running on the webserver you probably don't have the `php-curl` and `php-mcrypt` modules installed.
 
+#### Development
+
+The app is pretty much entirely written following Laravel's development practices, so you all you need to do is read the docs: http://laravel.com/docs/4.2
