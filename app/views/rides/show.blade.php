@@ -121,6 +121,15 @@
                     @endif
                 </div>
                 @endif
+                <div class="row" style="padding-top: 1em; padding-left: 1em; padding-right: 1em;">
+                    @if ($driver->id === $currentUser->id)
+                        {{ Form::open(array('action' => 'RideController@deleteRide')) }}
+                        {{ Form::hidden('rideId', $ride->id) }}
+                        {{ Form::hidden('userId', $currentUser->id) }}
+                        {{ Form::submit('Delete Ride', array('class' => 'btn btn-primary btn-block')) }}
+                        {{ Form::close() }}
+                    @endif
+                </div>
             </div>
         </div>
     </div>
