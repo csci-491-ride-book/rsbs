@@ -52,7 +52,7 @@
                 <div class="row">
                     <label class="control-label col-xs-6 col-sm-4">Open Seats:</label>
                     <label class="control-label col-xs-6 col-sm-4 text-right">
-                        {{ $ride->availableSeats() }}
+                        {{ $ride->seats-$ride->passengers->count() }}
                     </label>
                     @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id))
                         @if ($ride->passengers->contains($currentUser->id))
