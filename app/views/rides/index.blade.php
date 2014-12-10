@@ -218,7 +218,7 @@ Map - 2/3 of page on left
 Height is set on page load in footer script.
 Hidden on phone sized devices.
 -->
-    <div class="hidden-xs col-sm-8" id="map-div"></div>
+    <div class="hidden-xs col-sm-8" id="map-div" style="border-right: solid 1px; border-right-color: #003f87"></div>
 <!-- /Map -->
 
 <!-- RightSide - 1/3 of page on right -->
