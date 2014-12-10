@@ -99,9 +99,9 @@
                     <?php $j++ ?>
                     @endif
                     <div class="row">
-                        <div class="control-label col-xs-offset-6 col-xs-6 col-sm-offset-4 col-sm-4 text-right">
+                        <label class="control-label col-xs-offset-6 col-xs-6 col-sm-offset-4 col-sm-4 text-right">
                             <i>Available</i>
-                        </div>
+                        </label>
                     </div>
                 @endfor
                 @if (($ride->availableSeats()>0) && ($driver->id !== $currentUser->id))
