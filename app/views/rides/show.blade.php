@@ -157,7 +157,7 @@
                     <tbody>
                         @foreach($requests as $request)
                         <tr>
-                            <td>{{ $request->user->display_name }}</td>
+                            <td><a href="{{ route('users.show', $request->user->id) }}">{{ $request->user->display_name }}</a></td>
                             <td>
                                 <?php
                                      $requestDate = new DateTime($request->created_at);
