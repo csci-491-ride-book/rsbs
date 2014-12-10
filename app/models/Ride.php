@@ -1,6 +1,7 @@
 <?php
 
 class Ride extends Eloquent {
+
     protected $fillable = [];
 
     public function driver() {

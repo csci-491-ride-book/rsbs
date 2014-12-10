@@ -120,7 +120,11 @@ class RideController extends BaseController {
     }
 
     public function destroy($id) {
-
+    }
+    
+    public function deleteRide(){
+        $ride = Ride::find(Input::get('rideId'))->delete();
+        return Redirect::route('users.show', Input::get('userId'));
     }
 
     public function addRequest() {
