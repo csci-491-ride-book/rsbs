@@ -41,7 +41,7 @@
     <!-- /Non-phone Header -->
     <!-- Phone Header -->
             <div class="row visible-xs" style="background-color:#003f87">
-                <h1 class="col-xs-8" style="margin-top: 0.4em; margin-bottom: 0.4em; font-family: Georgia, serif; color: #42b6e8">Western Ride Sharing</h1>
+                <a href="/"><h1 class="col-xs-8" style="margin-top: 0.4em; margin-bottom: 0.4em; font-family: Georgia, serif; color: #42b6e8">Western Ride Sharing</h1></a>
                 <div class="col-xs-4 text-right" style="color:white">
                     <div>
                         Logged in as <b><a style="color: white" href="{{ route('users.show', $currentUser->id) }}">{{ $currentUser->user_name }}</a></b>
