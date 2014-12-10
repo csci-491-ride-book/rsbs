@@ -24,7 +24,8 @@ After building the tables, you can run the app in a development enviroment with 
 
 To put the app on a server for production, you should install and configure a webserver. A sample nginx configuration for this app is:
 
-```server {
+```
+server {
 
     # Port that the web server will listen on.
     listen 80;
