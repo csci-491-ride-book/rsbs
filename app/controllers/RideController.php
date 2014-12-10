@@ -98,6 +98,11 @@ class RideController extends BaseController {
 
     public function show($id) {
         $ride = Ride::find($id);
+        
+        if ($ride == null){
+            return Redirect::to('rides');
+        }
+        
         $driver = User::find($ride->user_id);
         $passengers = $ride->passengers;
         $comments = $ride->comments;
